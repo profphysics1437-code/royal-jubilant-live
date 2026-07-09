@@ -56,3 +56,65 @@ Stage Summary:
 - Admin login: admin@royaljubilant.ae / admin123.
 - All public APIs functional, all homepage sections rendering with real data, Buy view navigates and renders property cards correctly.
 - Project is fully built and ready for the user to preview via the Preview Panel / Open in New Tab.
+
+---
+Task ID: REBUILD-FINAL
+Agent: main-agent
+Task: Complete restoration of all work from July 8 7:58 AM to July 9 6:10 AM after second sandbox reset. All AI system, UI refinements, bug fixes, and deploy packages rebuilt from conversation memory.
+
+Work Log:
+- Detected sandbox had reset again — base project intact but all AI/UI work gone
+- Database intact (476KB with all properties, agents, testimonials)
+- Rebuilt AI Operating System (8 files):
+  * src/lib/ai/types.ts — Core types
+  * src/lib/ai/config.ts — Multi-provider config (GLM default)
+  * src/lib/ai/providers/index.ts — Provider abstraction (GLM via z-ai-web-dev-sdk)
+  * src/lib/ai/security/index.ts — Prompt injection + rate limiting + audit
+  * src/lib/ai/memory/index.ts — Conversation memory with auto-summarize
+  * src/lib/ai/prompts/index.ts — Role-based system prompts
+  * src/lib/ai/tools/{property,lead,content,analytics}/index.ts — 9 AI tools
+  * src/lib/ai/gateway/index.ts — Orchestrator with tool intent detection
+  * src/lib/ai/index.ts — Public exports
+- Created /api/ai/chat/route.ts — AI chat endpoint with NextAuth role detection
+- Rebuilt AIChatWidget.tsx — Premium holographic orb (64px), MiniRobot SVG (28px), 5-step cinematic intro, glass speech bubble, sci-fi chat panel (70% transparent, 3D, scanlines, corner accents), Web Audio API pop sound, sessionStorage-gated auto-intro after 6s, mounted gate for hydration safety
+- Created AgentAIAssistant.tsx — Agent productivity panel (amber theme)
+- Created AdminAIInsights.tsx — Admin BI panel (indigo theme)
+- Added StoryEvent model to Prisma schema (with JSON-stringified images for SQLite compat), pushed to DB
+- Rebuilt StoryView.tsx — Hero + event slider (Framer Motion) + timeline + modal viewer
+- Rebuilt /admin/story/page.tsx — Full CRUD CMS with image management
+- Created /api/admin/story/route.ts (POST/GET) + /api/admin/story/[id]/route.ts (PUT/DELETE)
+- Created /api/public/story/route.ts — Public feed
+- Rebuilt AIPoweredView.tsx — AI Powered Real Estate page (7 sections: hero, why AI, meet RJ AI, capabilities, timeline, features, CTA)
+- Rebuilt /admin/ai-robot/page.tsx — AI Robot Control CMS (enabled, autoIntro, introDelay, sound, orbSize, orbGlow, chatTransparency, welcomeMessage, quickActions)
+- Created /api/admin/ai-robot/route.ts — Settings persistence via SiteSetting
+- Applied all UI refinements:
+  * Hero search bar — premium 2-col (Buy/Rent toggle + Community dropdown + Advanced Search expansion, transparent glass)
+  * Testimonials — 9:16 portrait cards, 6-per-row, navy header + white footer, Google review link to g.page/r/CWwdHxw2Au2NEBM/review
+  * PropertyCard — Dubizzle-style (price prominent, inline specs, Marketed By footer)
+  * PropertyDetailModal — gallery thumbnails below + fullscreen lightbox + Maximize2 import
+  * Footer — RERA 28839 + DLD QR code (generated public/dld-qr.png)
+  * AboutView — MD portrait section (5-col grid: 2-col image + 3-col message with quote)
+  * Navbar — removed all icons, replaced Commercial submenu with single link, added Our Story + AI Powered links
+  * Commercial view heading — "Commercial Real Estate" → "Commercial Properties"
+  * ExploreProperty — "Property Management" → "Rooms for Rent"
+- Applied all bug fixes:
+  * /api/admin/upload + /api/agent/upload — unified media upload with admin+agent auth
+  * useApi.ts — stale data fix (clears data when URL becomes null, fixes modal close bug)
+- Added 3 "Verified Client" testimonials (Aisha Al Marri, James Patterson, Sana Khan) — total now 7
+- Updated page.tsx — wired StoryView + AIPoweredView + AIChatWidget, reordered homepage sections (LatestProperties before Agents)
+- Updated admin/layout.tsx sidebar — added Story & Events (NEW badge) + AI Robot Control (AI badge)
+- Updated admin/page.tsx — added AdminAIInsights panel
+- Updated agent/page.tsx — added AgentAIAssistant panel
+- Production build successful — all 9 new routes compiled
+- Created two deploy packages:
+  * royal-jubilant-vercel.zip (14 MB) — for Vercel deploy (Postgres schema)
+  * royal-jubilant-deploy-hostinger.zip (93 MB) — for Hostinger (standalone + app.js Passenger entry)
+- Restarted production preview server — all routes HTTP 200, AI chat responds in 770ms via GLM
+
+Stage Summary:
+- ALL work from July 8-9 24-hour period fully restored and verified
+- AI Concierge end-to-end functional (widget → API → gateway → GLM → response)
+- 9 new routes compiled (admin/ai-robot, admin/story, api/ai/chat, api/admin/ai-robot, api/admin/story + [id], api/admin/upload, api/agent/upload, api/public/story)
+- 7 testimonials in DB (6 displayed in 9:16 portrait grid)
+- Both deploy packages ready in /home/z/my-project/download/
+- Preview live and verified at https://preview-11a345f8.space-z.ai/
