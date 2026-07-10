@@ -276,12 +276,29 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex flex-col items-center gap-1">
-              <div className="bg-white p-1.5 rounded-lg">
-                <img src="/dld-qr.png" alt="DLD QR Code" className="w-16 h-16 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            {/* DLD QR Code — Premium styled frame */}
+            <a
+              href="https://dubailand.gov.ae/r/S5Oh64Ihyb"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 group"
+              title="Scan to verify our RERA License on Dubai Land Department"
+            >
+              <div className="relative">
+                <div className="bg-white p-2 rounded-xl border-2 border-[#C9A961]/50 shadow-lg group-hover:border-[#C9A961] transition-colors">
+                  <img src="/dld-qr.png" alt="DLD QR Code" className="w-20 h-20 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                </div>
+                <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-[#C9A961] rounded-tl" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-[#C9A961] rounded-tr" />
+                <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-[#C9A961] rounded-bl" />
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-[#C9A961] rounded-br" />
               </div>
-              <span className="text-[9px] text-white/50 uppercase tracking-wider">Scan DLD</span>
-            </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] text-[#C9A961] uppercase tracking-luxury font-semibold">RERA Licensed</span>
+                <span className="text-sm text-white font-serif font-medium">License #28839</span>
+                <span className="text-[10px] text-white/50 uppercase tracking-wider mt-0.5">Scan to Verify ↗</span>
+              </div>
+            </a>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-2 text-xs tracking-luxury uppercase text-white/60 hover:text-[#C9A961] transition-colors"
