@@ -736,12 +736,6 @@
       "namedRegex": "^/api/admin/testimonials(?:/)?$"
     },
     {
-      "page": "/api/admin/upload",
-      "regex": "^/api/admin/upload(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/admin/upload(?:/)?$"
-    },
-    {
       "page": "/api/admin/users",
       "regex": "^/api/admin/users(?:/)?$",
       "routeKeys": {},
@@ -794,12 +788,6 @@
       "regex": "^/api/agent/stats(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/agent/stats(?:/)?$"
-    },
-    {
-      "page": "/api/agent/upload",
-      "regex": "^/api/agent/upload(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/api/agent/upload(?:/)?$"
     },
     {
       "page": "/api/ai/chat",
