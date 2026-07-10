@@ -13,7 +13,7 @@ import {
 } from "@/components/site/sections/FeaturedProperties";
 import { Agents } from "@/components/site/sections/Agents";
 import { Testimonials } from "@/components/site/sections/Stats";
-import { VideoSection, InvestmentCTA } from "@/components/site/sections/Blog";
+import { VideoSection } from "@/components/site/sections/Blog";
 import { Newsletter } from "@/components/site/sections/OffPlan";
 
 // Modals
@@ -81,7 +81,6 @@ export default function Home() {
             <VideoSection />
             <Agents />
             <Testimonials />
-            <InvestmentCTA />
             <Newsletter />
           </>
         )}
