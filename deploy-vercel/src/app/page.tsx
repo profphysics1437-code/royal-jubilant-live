@@ -77,8 +77,8 @@ export default function Home() {
           <>
             <Hero />
             <ExploreProperty />
-            <VideoSection />
             <LatestProperties />
+            <VideoSection />
             <Agents />
             <Testimonials />
             <InvestmentCTA />
