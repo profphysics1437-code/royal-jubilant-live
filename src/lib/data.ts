@@ -317,8 +317,7 @@ export const agents: Agent[] = [
     id: "ag-009",
     name: "Awais Ali",
     title: "Property Consultant",
-    photo:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
+    photo: "/team/awais-ali.webp",
     phone: "+971 4 327 8401",
     whatsapp: "971524942329",
     email: "info@royaljubilant.ae",
