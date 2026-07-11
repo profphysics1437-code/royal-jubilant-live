@@ -568,17 +568,40 @@ model Video {
 }
 
 model StoryEvent {
-  id          String   @id @default(cuid())
-  title       String
-  description String  
-  eventDate   DateTime
-  location    String?
-  category    String   @default("milestone")
-  images   String  @default("[]")
-  videoUrl    String?
-  highlighted Boolean  @default(false)
-  order       Int      @default(0)
-  published   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  description     String
+  eventDate       DateTime
+  location        String?
+  category        String   @default("milestone")
+  developer       String?
+  tags            String   @default("[]") // JSON array
+  featuredImage   String?
+  images          String   @default("[]") // JSON array of gallery images
+  videoUrl        String?
+  highlighted     Boolean  @default(false)
+  featured        Boolean  @default(false)
+  archived        Boolean  @default(false)
+  order           Int      @default(0)
+  published       Boolean  @default(true)
+  // SEO
+  seoTitle        String?
+  seoDescription  String?
+  ogImage         String?
+  metaKeywords    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model StoryDeveloper {
+  id              String   @id @default(cuid())
+  name            String
+  logo            String?
+  description     String?
+  website         String?
+  order           Int      @default(0)
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
