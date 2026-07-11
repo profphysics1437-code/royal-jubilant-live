@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from 'next/server';
 import { processAIRequest } from '@/lib/ai/gateway';
 import { getServerSession } from 'next-auth';
