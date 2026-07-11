@@ -143,9 +143,9 @@ export function VideoSection() {
           </motion.p>
         </div>
 
-        {/* Video gallery — 9:16 portrait cards like a media gallery */}
+        {/* Video gallery — 9:16 portrait cards like a media gallery (max 6 on homepage) */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
-          {videos.map((video, i) => {
+          {videos.slice(0, 6).map((video, i) => {
             const Icon = categoryIcons[video.category] || TrendingUp;
             return (
               <motion.div
