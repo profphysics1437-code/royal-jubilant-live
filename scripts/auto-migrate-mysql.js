@@ -1,8 +1,9 @@
 /**
  * AUTOMATED MySQL MIGRATION SCRIPT FOR HOSTINGER
+ * Pure JavaScript — no TypeScript syntax
  * 
  * This script runs ON the Hostinger server (where localhost:3306 works).
- * It is triggered automatically during the npm install / build process.
+ * It is triggered automatically during the npm install / postinstall process.
  * 
  * What it does:
  * 1. Reads all data from SQLite (db/custom.db)
@@ -38,7 +39,7 @@ async function main() {
     return;
   }
   
-  console.log('[migration] Starting SQLite → MySQL migration...');
+  console.log('[migration] Starting SQLite to MySQL migration...');
   
   // Source: SQLite
   const sqlitePath = path.join(__dirname, '..', 'db', 'custom.db');
@@ -47,7 +48,7 @@ async function main() {
     return;
   }
   
-  const sqliteUrl = `file:${sqlitePath}`;
+  const sqliteUrl = 'file:' + sqlitePath;
   const sqlite = new PrismaClient({ datasources: { db: { url: sqliteUrl } } });
   
   // Target: MySQL
@@ -56,13 +57,13 @@ async function main() {
   // Step 1: Push schema to MySQL
   console.log('[migration] Step 1: Pushing schema to MySQL...');
   try {
-    execSync(`DATABASE_URL="${mysqlUrl}" npx prisma db push --accept-data-loss`, {
+    execSync('DATABASE_URL="' + mysqlUrl + '" npx prisma db push --accept-data-loss', {
       stdio: 'inherit',
       cwd: path.join(__dirname, '..'),
     });
-    console.log('[migration] ✅ Schema pushed to MySQL');
+    console.log('[migration] Schema pushed to MySQL');
   } catch (e) {
-    console.error('[migration] ❌ Schema push failed:', e.message);
+    console.error('[migration] Schema push failed:', e.message);
     await sqlite.$disconnect();
     await mysql.$disconnect();
     return; // Don't crash, continue with SQLite
@@ -70,7 +71,7 @@ async function main() {
   
   // Step 2: Read all data from SQLite
   console.log('[migration] Step 2: Reading data from SQLite...');
-  const models = [
+  var models = [
     'user', 'agent', 'property', 'community', 'developer', 'blogPost',
     'testimonial', 'award', 'faq', 'heroSlide', 'video', 'siteSetting',
     'storyEvent', 'lead', 'appointment', 'message', 'notification',
@@ -80,50 +81,52 @@ async function main() {
     'location', 'propertyCategory', 'amenity', 'savedProperty', 'savedSearch'
   ];
   
-  const data = {};
-  let totalRecords = 0;
+  var data = {};
+  var totalRecords = 0;
   
-  for (const model of models) {
+  for (var i = 0; i < models.length; i++) {
+    var model = models[i];
     try {
-      const records = await (sqlite as any)[model].findMany();
+      var records = await sqlite[model].findMany();
       data[model] = records;
       totalRecords += records.length;
       if (records.length > 0) {
-        console.log(`[migration]   📦 ${model}: ${records.length} records`);
+        console.log('[migration]   ' + model + ': ' + records.length + ' records');
       }
     } catch (e) {
       data[model] = [];
     }
   }
   
-  console.log(`[migration] Total records to migrate: ${totalRecords}`);
+  console.log('[migration] Total records to migrate: ' + totalRecords);
   
   // Step 3: Insert data into MySQL
   console.log('[migration] Step 3: Inserting data into MySQL...');
-  let insertedRecords = 0;
+  var insertedRecords = 0;
   
-  for (const model of models) {
+  for (var j = 0; j < models.length; j++) {
+    var model = models[j];
     if (!data[model] || data[model].length === 0) continue;
     
     try {
       // Clear existing data
-      await (mysql as any)[model].deleteMany({});
+      await mysql[model].deleteMany({});
       
       // Insert in batches
-      const batchSize = 50;
-      for (let i = 0; i < data[model].length; i += batchSize) {
-        const batch = data[model].slice(i, i + batchSize);
-        await (mysql as any)[model].createMany({ data: batch, skipDuplicates: true });
+      var batchSize = 50;
+      for (var k = 0; k < data[model].length; k += batchSize) {
+        var batch = data[model].slice(k, k + batchSize);
+        await mysql[model].createMany({ data: batch, skipDuplicates: true });
       }
       
       insertedRecords += data[model].length;
-      console.log(`[migration]   ✅ ${model}: ${data[model].length} inserted`);
+      console.log('[migration]   ' + model + ': ' + data[model].length + ' inserted');
     } catch (e) {
-      console.log(`[migration]   ⚠️ ${model}: ${e.message} — trying individual inserts`);
+      console.log('[migration]   ' + model + ': ' + e.message + ' - trying individual inserts');
       // Fallback: insert one by one
-      for (const record of data[model]) {
+      for (var l = 0; l < data[model].length; l++) {
         try {
-          await (mysql as any)[model].create({ data: record });
+          await mysql[model].create({ data: data[model][l] });
           insertedRecords++;
         } catch (innerE) {
           // Skip problematic records
@@ -134,19 +137,20 @@ async function main() {
   
   // Step 4: Verify row counts
   console.log('[migration] Step 4: Verifying row counts...');
-  let allMatch = true;
+  var allMatch = true;
   
-  for (const model of models) {
+  for (var m = 0; m < models.length; m++) {
+    var model = models[m];
     if (!data[model] || data[model].length === 0) continue;
     
     try {
-      const sqliteCount = data[model].length;
-      const mysqlCount = await (mysql as any)[model].count();
+      var sqliteCount = data[model].length;
+      var mysqlCount = await mysql[model].count();
       
       if (sqliteCount === mysqlCount) {
-        console.log(`[migration]   ✅ ${model}: ${sqliteCount} = ${mysqlCount}`);
+        console.log('[migration]   ' + model + ': ' + sqliteCount + ' = ' + mysqlCount);
       } else {
-        console.log(`[migration]   ⚠️ ${model}: SQLite=${sqliteCount}, MySQL=${mysqlCount}`);
+        console.log('[migration]   ' + model + ': SQLite=' + sqliteCount + ', MySQL=' + mysqlCount);
         allMatch = false;
       }
     } catch (e) {
@@ -160,15 +164,15 @@ async function main() {
   // Create marker file
   fs.writeFileSync(markerFile, new Date().toISOString());
   
-  console.log(`[migration] ═══════════════════════════════════════`);
-  console.log(`[migration] Migration Complete!`);
-  console.log(`[migration] Records migrated: ${insertedRecords}/${totalRecords}`);
-  console.log(`[migration] Verification: ${allMatch ? 'PASSED ✅' : 'CHECK NEEDED ⚠️'}`);
-  console.log(`[migration] SQLite backup: ${sqlitePath} (untouched)`);
-  console.log(`[migration] ═══════════════════════════════════════`);
+  console.log('[migration] ============================================');
+  console.log('[migration] Migration Complete!');
+  console.log('[migration] Records migrated: ' + insertedRecords + '/' + totalRecords);
+  console.log('[migration] Verification: ' + (allMatch ? 'PASSED' : 'CHECK NEEDED'));
+  console.log('[migration] SQLite backup: ' + sqlitePath + ' (untouched)');
+  console.log('[migration] ============================================');
 }
 
-main().catch(e => {
+main().catch(function(e) {
   console.error('[migration] Fatal error:', e.message);
-  // Don't crash the build — continue with SQLite
+  // Don't crash the build - continue with SQLite
 });
