@@ -7,3 +7,4 @@ deploy-vercel/
 upload/
 download/
 scripts/*.log
+.env
