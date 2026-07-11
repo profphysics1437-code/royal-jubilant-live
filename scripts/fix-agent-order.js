@@ -16,15 +16,15 @@ async function main() {
     const agents = await prisma.agent.findMany();
     console.log('[fix-agents] Found', agents.length, 'agents');
     
-    // Define correct order
+    // Correct order per user
     const orderMap = {
       'Muhammad Javed Zafar': 1,
       'Maria Raza': 2,
-      'Ahmad Ali': 3,
-      'Awais Ali': 4,
-      'Naqash Haider': 5,
-      'Muhammad Saleem Khan': 6,
-      'Muhammad Naeem Zafar': 7,
+      'Muhammad Naeem Zafar': 3,
+      'Ahmad Ali': 4,
+      'Awais Ali': 5,
+      'Naqash Haider': 6,
+      'Muhammad Saleem Khan': 7,
       'Muhammad Nazim': 8,
     };
     
