@@ -6,8 +6,9 @@ const path = require('path');
 // ═══════════════════════════════════════════════════════════
 
 // Database — MySQL connection (Hostinger)
+// Password: Royal@2026@# → URL-encoded: Royal%402026%40%23
 if (!process.env.DATABASE_URL) {
-  process.env.DATABASE_URL = 'mysql://u432212399_adminrjcom:Royal@2026@%23@localhost:3306/u432212399_rjcom';
+  process.env.DATABASE_URL = 'mysql://u432212399_adminrjcom:Royal%402026%40%23@localhost:3306/u432212399_rjcom';
 }
 
 // NextAuth
