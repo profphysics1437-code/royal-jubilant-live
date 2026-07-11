@@ -454,8 +454,18 @@ function ContactForm() {
 
 export function FAQsView() {
   const { setActiveView } = useStore();
-  const { data } = useApi<{ faqs: any[] }>("/api/public/faqs", { faqs: [] });
-  const faqs = (data?.faqs || []).map((f) => ({ q: f.question, a: f.answer, category: f.category }));
+  const fallbackFaqs = [
+    { question: "What is RERA and why is it important?", answer: "RERA (Real Estate Regulatory Agency) is the regulatory arm of the Dubai Land Department (DLD). It regulates and licenses real estate brokers, agents, and developers in Dubai. Always work with a RERA-certified broker like Royal Jubilant to ensure your transaction is legally protected.", category: "general" },
+    { question: "Can foreigners buy property in Dubai?", answer: "Yes, foreigners can buy property in Dubai's designated freehold areas. These include Dubai Marina, Downtown Dubai, Palm Jumeirah, Dubai Hills Estate, Business Bay, and JVC. You get full ownership rights in these areas.", category: "buying" },
+    { question: "What is the process of buying a property in Dubai?", answer: "The process involves: 1) Selecting a property, 2) Signing a Memorandum of Understanding (MOU) and paying a deposit, 3) Obtaining a No Objection Certificate (NOC) from the developer, 4) Transferring ownership at the DLD. Royal Jubilant handles this entire process for you.", category: "buying" },
+    { question: "What are the costs associated with buying property in Dubai?", answer: "Additional costs include: DLD transfer fee (4% of property value), agent fee (2% + VAT), NOC fee (AED 500-5,000), and trustee office fee. Budget approximately 7% above the purchase price for all fees.", category: "buying" },
+    { question: "What is Ejari?", answer: "Ejari is the online registration system by RERA that regulates all rental contracts in Dubai. Every rental agreement must be registered with Ejari. It protects both landlords and tenants and is required for utilities connection, visa applications, and other services.", category: "renting" },
+    { question: "What is a payment plan for off-plan properties?", answer: "A payment plan is a schedule of payments spread over the construction period. Instead of paying the full price upfront, you pay in installments (e.g., 20% on booking, 10% every 6 months, 40% on handover). Royal Jubilant secures the best payment plans from developers.", category: "off-plan" },
+    { question: "What is the difference between freehold and leasehold?", answer: "Freehold means you own the property and the land it's on permanently. Leasehold means you lease the property for a fixed period (usually 99 years). In Dubai, most properties available to foreigners are freehold in designated areas.", category: "general" },
+    { question: "How long does the property buying process take?", answer: "For ready properties, the process typically takes 30-60 days from signing the MOU to receiving the title deed. For off-plan properties, you sign the SPA immediately and pay according to the payment plan until handover.", category: "buying" },
+  ];
+  const { data } = useApi<{ faqs: any[] }>("/api/public/faqs", { faqs: fallbackFaqs });
+  const faqs = (data?.faqs && data.faqs.length > 0 ? data.faqs : fallbackFaqs).map((f) => ({ q: f.question, a: f.answer, category: f.category }));
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">

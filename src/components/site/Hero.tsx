@@ -10,6 +10,8 @@ const fallbackSlides = [
   { heading1: "Discover Dubai's", heading2: "most extraordinary", heading3: "addresses.", subtitle: "From apartments and villas in family-friendly communities to commercial offices, off-plan launches and industrial units — Royal Jubilant's RERA-certified advisors deliver personal, research-led counsel across every Dubai property category." },
   { heading1: "Your Dream Property", heading2: "Awaits in Dubai", heading3: null, subtitle: "Discover exceptional homes and investment opportunities with Royal Jubilant Real Estate. Your journey to finding the perfect property starts here." },
   { heading1: "Premium Real Estate", heading2: "Services in Dubai", heading3: null, subtitle: "Buy, sell, rent or invest in Off Plan properties with Dubai's trusted real estate broker. RERA-certified advisors, deep local knowledge, and a commitment to smoother transactions." },
+  { heading1: "Invest in Dubai's", heading2: "Most Exciting", heading3: "Off-Plan Projects.", subtitle: "Get first-call access to Dubai's most anticipated off-plan launches from Emaar, Nakheel, Omniyat, and more. Royal Jubilant secures the best units at the best prices before they hit the market." },
+  { heading1: "Dubai's Premier", heading2: "Luxury Property", heading3: "Destination.", subtitle: "From branded penthouses on Palm Jumeirah to signature villas in Emirates Hills — Royal Jubilant represents Dubai's most extraordinary trophy assets with discretion and expertise." },
 ];
 
 export function Hero() {
