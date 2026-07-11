@@ -1,12 +1,13 @@
 // Royal Jubilant Real Estate LLC — full enterprise schema
 // Public website + admin portal data model.
+// MySQL-compatible version
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -17,7 +18,7 @@ model User {
   email         String   @unique
   name          String?
   phone         String?
-  role          String   @default("customer") // customer | agent | admin
+  role          String   @default("customer")
   passwordHash  String?
   avatarUrl     String?
   preferredLang String?
@@ -37,80 +38,66 @@ model User {
   commissions   Commission[]
 }
 
-// ---- Properties (admin-managed) ----------------------------------------
-
 model Property {
   id               String   @id @default(cuid())
   reference        String   @unique
   title            String
   slug             String   @unique
-  // Section 1 — Listing Type & Purpose
-  status           String   // sale | rent
-  category         String?  // Residential | Commercial
-  type             String   // Apartment | Villa | Townhouse | Penthouse | Studio | Duplex | Compound | Office | Retail | Warehouse | Labor Camp | Shop | Factory
-  // Section 2 — Location
-  country          String?  // UAE | Saudi Arabia | Qatar | ...
-  emirate          String?  // Dubai | Abu Dhabi | ...
+  status           String
+  category         String?
+  type             String
+  country          String?
+  emirate          String?
   community        String
   subCommunity     String?
   locationLat      Float?
   locationLng      Float?
   locationAddress  String?
-  // Section 3 — Property Details
   bedrooms         Int      @default(0)
   bathrooms        Int      @default(0)
   area             Float
-  areaUnit         String?  @default("sqft") // sqft | sqm
+  areaUnit         String?  @default("sqft")
   plotSize         Float?
   plotSizeUnit     String?  @default("sqft")
-  completionStatus String?  // Ready | Off-Plan
-  completionDate   String?  // e.g. "2027-Q1" — stored as string to allow flexible month/year
-  furnishingStatus String?  // Furnished | Unfurnished | Partially Furnished
+  completionStatus String?
+  completionDate   String?
+  furnishingStatus String?
   floorNumber      Int?
   totalFloors      Int?
   parking          Int      @default(0)
-  // Section 4 — Pricing & Payment
   price            Float
   pricePerSqft     Float?
-  rentFrequency    String?  // Yearly | Monthly | Weekly | Daily
+  rentFrequency    String?
   noOfCheques      Int?
   serviceCharge    Float?
   priceNegotiable  Boolean  @default(false)
-  // Section 5 — Amenities & Features (all stored as JSON arrays)
-  indoorFeatures   String?  // JSON array
-  outdoorFeatures  String?  // JSON array
-  buildingAmenities String? // JSON array
-  nearbyLandmarks  String?  // JSON array
-  viewFeatures     String?  // JSON array (renamed from "view" to avoid SQL reserved word)
-  // Section 6 — Media
-  images           String   // JSON array as string
+  indoorFeatures   String?  @db.Text
+  outdoorFeatures  String?  @db.Text
+  buildingAmenities String? @db.Text
+  nearbyLandmarks  String?  @db.Text
+  viewFeatures     String?  @db.Text
+  images           String   @db.Text
   floorPlanUrl     String?
   videoUrl         String?
   virtualTourUrl   String?
-  // Section 7 — Description & Reference
-  description      String
-  reraNumber       String?  // Mandatory for UAE
+  description      String   @db.Text
+  reraNumber       String?
   exclusiveListing Boolean  @default(false)
-  // Section 8 — Agent details (auto-filled from agent's User/Agent profile)
-  developer        String?  // kept for backwards compatibility
-  furnished        Boolean  @default(false) // kept for backwards compat (derived from furnishingStatus)
-  amenities        String   // JSON array — kept for backwards compat (legacy combined amenities)
-  features         String   // JSON array — kept for backwards compat
-  paymentPlan      String?  // JSON array — kept for backwards compat
-  handoverYear     Int?     // kept for backwards compat
-  // Flags
+  developer        String?
+  furnished        Boolean  @default(false)
+  amenities        String   @db.Text
+  features         String   @db.Text
+  paymentPlan      String?  @db.Text
+  handoverYear     Int?
   featured         Boolean  @default(false)
   isLatest         Boolean  @default(true)
   isLuxury         Boolean  @default(false)
   published        Boolean  @default(true)
   views            Int      @default(0)
-
   agentId          String?
   agent            User?    @relation("PropertyAgent", fields: [agentId], references: [id], onDelete: SetNull)
-
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-
   savedBy          SavedProperty[]
   leads            Lead[]
 }
@@ -123,7 +110,6 @@ model SavedProperty {
   propertyId  String?
   externalRef String?
   createdAt   DateTime @default(now())
-
   @@unique([userId, externalRef])
 }
 
@@ -132,11 +118,9 @@ model SavedSearch {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   name      String
-  filters   String
+  filters   String   @db.Text
   createdAt DateTime @default(now())
 }
-
-// ---- CRM / Leads -------------------------------------------------------
 
 model Lead {
   id          String   @id @default(cuid())
@@ -146,24 +130,19 @@ model Lead {
   whatsapp    String?
   source      String
   intent      String?
-  message     String?
+  message     String?  @db.Text
   budget      Float?
   propertyRef String?
   community   String?
-
   status      String   @default("new")
   assignedTo  String?
-  notes       String?
-
+  notes       String?  @db.Text
   user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId      String?
-
   property    Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
   propertyId  String?
-
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
   appointments Appointment[]
   crmNotes    CrmNote[]
 }
@@ -179,7 +158,7 @@ model Appointment {
   scheduledAt DateTime
   type      String
   status    String   @default("scheduled")
-  notes     String?
+  notes     String?  @db.Text
   createdAt DateTime @default(now())
 }
 
@@ -190,7 +169,7 @@ model Message {
   fromEmail String
   toEmail   String
   subject   String?
-  body      String
+  body      String   @db.Text
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
@@ -200,24 +179,22 @@ model Notification {
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?
   title     String
-  body      String
+  body      String   @db.Text
   type      String   @default("info")
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 
-// Agent CRM notes (per-lead, per-agent)
 model CrmNote {
   id        String   @id @default(cuid())
   agent     User     @relation(fields: [agentId], references: [id], onDelete: Cascade)
   agentId   String
   lead      Lead?    @relation(fields: [leadId], references: [id], onDelete: Cascade)
   leadId    String?
-  note      String
+  note      String   @db.Text
   createdAt DateTime @default(now())
 }
 
-// Commission tracking per closed deal
 model Commission {
   id            String   @id @default(cuid())
   agent         User     @relation(fields: [agentId], references: [id], onDelete: Cascade)
@@ -227,12 +204,10 @@ model Commission {
   dealValue     Float
   commissionPct Float    @default(2.0)
   commissionAmt Float
-  status        String   @default("pending") // pending | invoiced | paid
+  status        String   @default("pending")
   paidAt        DateTime?
   createdAt     DateTime @default(now())
 }
-
-// ---- Newsletter & Valuations ------------------------------------------
 
 model NewsletterSubscriber {
   id        String   @id @default(cuid())
@@ -256,7 +231,7 @@ model ValuationRequest {
   condition    String?
   ownership    String?
   timeline     String?
-  message      String?
+  message      String?  @db.Text
   status       String   @default("new")
   createdAt    DateTime @default(now())
 }
@@ -276,8 +251,6 @@ model MortgageEnquiry {
   createdAt    DateTime @default(now())
 }
 
-// ---- Admin-managed content --------------------------------------------
-
 model Agent {
   id                String   @id @default(cuid())
   name              String
@@ -286,11 +259,11 @@ model Agent {
   phone             String
   whatsapp          String
   email             String   @unique
-  languages         String   // JSON array
-  specializations   String   // JSON array
-  communities       String   // JSON array
-  biography         String
-  awards            String   // JSON array
+  languages         String   @db.Text
+  specializations   String   @db.Text
+  communities       String   @db.Text
+  biography         String   @db.Text
+  awards            String   @db.Text
   rating            Float    @default(5.0)
   reviewsCount      Int      @default(0)
   activeListings    Int      @default(0)
@@ -310,21 +283,21 @@ model Community {
   name            String
   shortName       String
   hero            String
-  overview        String
-  lifestyle       String
+  overview        String   @db.Text
+  lifestyle       String   @db.Text
   averagePrice    String
   pricePerSqft    String
   roi             String
   population      String
   totalProperties Int
   rating          Float    @default(4.5)
-  highlights      String   // JSON array
-  schools         String   // JSON array
-  hospitals       String   // JSON array
-  transport       String   // JSON array
-  shopping        String   // JSON array
-  nearbyCommunities String // JSON array
-  stats           String   // JSON array
+  highlights      String   @db.Text
+  schools         String   @db.Text
+  hospitals       String   @db.Text
+  transport       String   @db.Text
+  shopping        String   @db.Text
+  nearbyCommunities String @db.Text
+  stats           String   @db.Text
   published       Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -336,13 +309,13 @@ model Developer {
   logo              String
   founded           String
   headquarters      String
-  overview          String
+  overview          String   @db.Text
   totalProjects     Int
   completedProjects Int
   ongoingProjects   Int
-  awards            String   // JSON array
+  awards            String   @db.Text
   hero              String
-  topProjects       String   // JSON array
+  topProjects       String   @db.Text
   published         Boolean  @default(true)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -357,7 +330,7 @@ model BlogPost {
   readTime  String
   authorName String
   image     String
-  content   String?
+  content   String?  @db.Text
   published Boolean  @default(true)
   authorId  String?
   author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
@@ -372,7 +345,7 @@ model Testimonial {
   location  String
   avatar    String
   rating    Int      @default(5)
-  quote     String
+  quote     String   @db.Text
   service   String
   published Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -388,17 +361,13 @@ model Award {
   createdAt DateTime @default(now())
 }
 
-// ---- Site Settings (admin-editable text) -------------------------------
-
 model SiteSetting {
   id        String   @id @default(cuid())
   key       String   @unique
-  value     String
+  value     String   @db.Text
   category  String   @default("general")
   updatedAt DateTime @updatedAt
 }
-
-// ---- Audit & Settings -------------------------------------------------
 
 model AuditLog {
   id        String   @id @default(cuid())
@@ -406,11 +375,9 @@ model AuditLog {
   action    String
   entity    String?
   entityId  String?
-  meta      String?
+  meta      String?  @db.Text
   createdAt DateTime @default(now())
 }
-
-// ---- Phase 1: CMS Models ---------------------------------------------------
 
 model HeroSlide {
   id        String   @id @default(cuid())
@@ -418,7 +385,7 @@ model HeroSlide {
   heading1  String
   heading2  String
   heading3  String?
-  subtitle  String
+  subtitle  String   @db.Text
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -461,18 +428,16 @@ model ActivityLog {
   action    String
   entity    String
   entityId  String?
-  details   String?
+  details   String?  @db.Text
   ipAddress String?
   createdAt DateTime @default(now())
 }
-
-// ---- Phase 2: CMS Models ---------------------------------------------------
 
 model MediaFile {
   id        String   @id @default(cuid())
   filename  String
   url       String
-  type      String   // image | video | pdf | icon | svg
+  type      String
   folder    String   @default("general")
   size      Int      @default(0)
   altTag    String?
@@ -485,7 +450,7 @@ model MediaFile {
 model Popup {
   id          String   @id @default(cuid())
   title       String
-  content     String
+  content     String   @db.Text
   type        String   @default("info")
   trigger     String   @default("immediate")
   delaySeconds Int     @default(0)
@@ -504,14 +469,14 @@ model SeoMeta {
   id              String   @id @default(cuid())
   pageSlug        String   @unique
   metaTitle       String?
-  metaDescription String?
+  metaDescription String?  @db.Text
   canonicalUrl    String?
   ogTitle         String?
-  ogDescription   String?
+  ogDescription   String?  @db.Text
   ogImage         String?
   twitterCard     String?  @default("summary_large_image")
   keywords        String?
-  structuredData  String?
+  structuredData  String?  @db.Text
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -520,31 +485,28 @@ model MenuItem {
   id        String   @id @default(cuid())
   label     String
   url       String   @default("")
-  view      String?  // internal store action, e.g. "rent", "buy", "about-offplan"
-  desc      String?  // short description shown in dropdown
-  badge     String?  // optional badge text e.g. "New", "CMS"
-  parentId  String?  // for sub-menus; null = top-level
+  view      String?
+  desc      String?
+  badge     String?
+  parentId  String?
   order     Int      @default(0)
-  icon      String?  // lucide-react icon name e.g. "Building", "Home"
-  menu      String   @default("main")  // which menu group: main, footer, mobile
+  icon      String?
+  menu      String   @default("main")
   visible   Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   @@index([menu, visible])
   @@index([parentId])
 }
-
-// ---- Phase 3: Advanced Enterprise Models ----------------------------------
 
 model EmailTemplate {
   id          String   @id @default(cuid())
   name        String   @unique
   slug        String   @unique
   subject     String
-  body        String
+  body        String   @db.Text
   category    String   @default("transactional")
-  variables   String?
+  variables   String?  @db.Text
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -556,12 +518,12 @@ model LandingPage {
   slug        String   @unique
   headline    String
   subheadline String?
-  body        String
+  body        String   @db.Text
   heroImage   String?
   ctaText     String?
   ctaLink     String?
   seoTitle    String?
-  seoDescription String?
+  seoDescription String? @db.Text
   status      String   @default("draft")
   publishedAt DateTime?
   createdAt   DateTime @default(now())
@@ -572,17 +534,15 @@ model ReportSnapshot {
   id          String   @id @default(cuid())
   type        String
   period      String
-  summary     String
+  summary     String   @db.Text
   generatedBy String?
   createdAt   DateTime @default(now())
 }
 
-// ---- FAQ & Video Models ----------------------------------------------------
-
 model Faq {
   id        String   @id @default(cuid())
   question  String
-  answer    String
+  answer    String   @db.Text
   category  String   @default("general")
   order     Int      @default(0)
   published Boolean  @default(true)
@@ -598,7 +558,7 @@ model Video {
   category    String   @default("Market Insights")
   duration    String   @default("0:00")
   thumbnail   String
-  description String
+  description String   @db.Text
   videoUrl    String?
   youtubeUrl  String?
   order       Int      @default(0)
@@ -610,11 +570,11 @@ model Video {
 model StoryEvent {
   id          String   @id @default(cuid())
   title       String
-  description String
+  description String   @db.Text
   eventDate   DateTime
   location    String?
   category    String   @default("milestone")
-  images      String   @default("[]")
+  images      String   @default("[]") @db.Text
   videoUrl    String?
   highlighted Boolean  @default(false)
   order       Int      @default(0)
