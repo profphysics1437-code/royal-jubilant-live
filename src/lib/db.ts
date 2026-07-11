@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 
-// Safe Prisma client — returns a no-op proxy if DATABASE_URL is not available
-// This prevents build-time crashes when Vercel collects page data
+// ULTRA-SAFE Prisma client — never crashes at build time
+// Returns empty results if database is not available
 
 function createSafeProxy(): any {
   return new Proxy({} as any, {
     get(target, prop, receiver) {
-      // Return a function for any method call that returns null/empty
       if (typeof prop === 'string') {
+        // Return an async function for any method call
         return (...args: any[]) => Promise.resolve([]);
       }
       return Reflect.get(target, prop, receiver);
@@ -15,28 +15,44 @@ function createSafeProxy(): any {
   });
 }
 
-function createPrismaClient(): PrismaClient {
-  return new PrismaClient({
-    log: process.env.NODE_ENV === 'production' ? ['error'] : ['query'],
-  });
+function createPrismaClient(): PrismaClient | null {
+  try {
+    return new PrismaClient({
+      log: process.env.NODE_ENV === 'production' ? ['error'] : ['query'],
+    });
+  } catch (e) {
+    console.log('[db] Failed to create Prisma client:', e);
+    return null;
+  }
 }
-
-// Only create real Prisma client if DATABASE_URL is set
-const hasDb = !!process.env.DATABASE_URL;
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-if (hasDb && !globalForPrisma.prisma) {
-  try {
-    globalForPrisma.prisma = createPrismaClient();
-  } catch (e) {
-    console.log('[db] Failed to create Prisma client:', e);
+// Try to create Prisma client, fall back to safe proxy if it fails
+let client: PrismaClient | any;
+
+try {
+  if (process.env.DATABASE_URL) {
+    if (globalForPrisma.prisma) {
+      client = globalForPrisma.prisma;
+    } else {
+      client = createPrismaClient();
+      if (client && process.env.NODE_ENV !== 'production') {
+        globalForPrisma.prisma = client;
+      }
+    }
+  } else {
+    client = createSafeProxy();
   }
+} catch (e) {
+  console.log('[db] Error during initialization, using safe proxy:', e);
+  client = createSafeProxy();
 }
 
-// Export either real client or safe proxy
-export const db = globalForPrisma.prisma ?? (hasDb ? createPrismaClient() : createSafeProxy());
+if (!client) {
+  client = createSafeProxy();
+}
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = globalForPrisma.prisma ?? (hasDb ? db as PrismaClient : undefined);
+export const db = client;
