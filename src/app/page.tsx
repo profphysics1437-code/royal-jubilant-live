@@ -1,5 +1,9 @@
 "use client";
 
+// Force dynamic rendering on Vercel
+export const dynamic = "force-dynamic";
+
+
 import { useEffect } from "react";
 import { useStore } from "@/lib/store";
 import { Navbar } from "@/components/site/Navbar";
