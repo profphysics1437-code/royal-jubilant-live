@@ -1,23 +1,17 @@
 import { PrismaClient } from '@prisma/client'
 
-// BUILD-SAFE Prisma client
-// Returns a completely inert proxy during build time to prevent crashes
-// when Next.js tries to collect page data without a real database connection.
+// ONLY use inert proxy during build phase (when Next.js collects page data)
+// At runtime, ALWAYS use real Prisma client
 
-const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build' 
-                  || process.env.CI === 'true' 
-                  || !process.env.DATABASE_URL;
+const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build';
 
 function createInertProxy(): any {
-  // An inert proxy that returns Promise.resolve([] or {}) for any call
-  // This prevents "Cannot read properties of undefined" errors during build
   const handler: ProxyHandler<any> = {
     get(target, prop, receiver) {
       if (prop === '$connect' || prop === '$disconnect') {
         return () => Promise.resolve();
       }
       if (typeof prop === 'string') {
-        // Return a function that returns an empty array (or empty object for findUnique)
         return (...args: any[]) => Promise.resolve([]);
       }
       return Reflect.get(target, prop, receiver);
@@ -26,26 +20,14 @@ function createInertProxy(): any {
   return new Proxy({} as any, handler);
 }
 
-function createPrismaClient(): PrismaClient | any {
-  if (isBuildPhase) {
-    return createInertProxy();
-  }
-  try {
-    return new PrismaClient({
-      log: process.env.NODE_ENV === 'production' ? ['error'] : ['query'],
-    });
-  } catch (e) {
-    console.log('[db] Failed to create Prisma client, using inert proxy:', e);
-    return createInertProxy();
-  }
-}
-
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
 if (!isBuildPhase && !globalForPrisma.prisma) {
-  globalForPrisma.prisma = createPrismaClient();
+  globalForPrisma.prisma = new PrismaClient({
+    log: process.env.NODE_ENV === 'production' ? ['error'] : ['query'],
+  });
 }
 
-export const db = isBuildPhase ? createInertProxy() : (globalForPrisma.prisma ?? createPrismaClient());
+export const db = isBuildPhase ? createInertProxy() : (globalForPrisma.prisma ?? createInertProxy());
