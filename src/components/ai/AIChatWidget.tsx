@@ -442,6 +442,16 @@ function PremiumRobot({ animate }: { animate: boolean }) {
 
       {/* Left arm static */}
       <line x1="14" y1="32" x2="10" y2="38" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+
+      {/* Legs */}
+      <line x1="20" y1="43" x2="19" y2="48" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+      <line x1="30" y1="43" x2="31" y2="48" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+      {/* Gold knee accents */}
+      <circle cx="19.5" cy="45.5" r="0.8" fill="#D4AF37" />
+      <circle cx="30.5" cy="45.5" r="0.8" fill="#D4AF37" />
+      {/* Feet */}
+      <ellipse cx="19" cy="49" rx="2" ry="1" fill="#ffffff" stroke="#e0e0e0" strokeWidth="0.4" />
+      <ellipse cx="31" cy="49" rx="2" ry="1" fill="#ffffff" stroke="#e0e0e0" strokeWidth="0.4" />
     </svg>
   );
 }
