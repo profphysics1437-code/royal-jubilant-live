@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -71,23 +71,23 @@ model Property {
   noOfCheques      Int?
   serviceCharge    Float?
   priceNegotiable  Boolean  @default(false)
-  indoorFeatures   String? 
-  outdoorFeatures  String? 
-  buildingAmenities String?
-  nearbyLandmarks  String? 
-  viewFeatures     String? 
-  images           String  
+  indoorFeatures   String? @db.Text 
+  outdoorFeatures  String? @db.Text 
+  buildingAmenities String? @db.Text
+  nearbyLandmarks  String? @db.Text 
+  viewFeatures     String? @db.Text 
+  images      String @db.Text  
   floorPlanUrl     String?
   videoUrl         String?
   virtualTourUrl   String?
-  description      String  
+  description   String @db.Text  
   reraNumber       String?
   exclusiveListing Boolean  @default(false)
   developer        String?
   furnished        Boolean  @default(false)
-  amenities        String  
-  features         String  
-  paymentPlan      String? 
+  amenities    String @db.Text  
+  features     String @db.Text  
+  paymentPlan      String? @db.Text 
   handoverYear     Int?
   featured         Boolean  @default(false)
   isLatest         Boolean  @default(true)
@@ -118,7 +118,7 @@ model SavedSearch {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   name      String
-  filters   String  
+  filters  String @db.Text  
   createdAt DateTime @default(now())
 }
 
@@ -130,13 +130,13 @@ model Lead {
   whatsapp    String?
   source      String
   intent      String?
-  message     String? 
+  message     String? @db.Text 
   budget      Float?
   propertyRef String?
   community   String?
   status      String   @default("new")
   assignedTo  String?
-  notes       String? 
+  notes       String? @db.Text 
   user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId      String?
   property    Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
@@ -158,7 +158,7 @@ model Appointment {
   scheduledAt DateTime
   type      String
   status    String   @default("scheduled")
-  notes     String? 
+  notes     String? @db.Text 
   createdAt DateTime @default(now())
 }
 
@@ -169,7 +169,7 @@ model Message {
   fromEmail String
   toEmail   String
   subject   String?
-  body      String  
+  body   String @db.Text  
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
@@ -179,7 +179,7 @@ model Notification {
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?
   title     String
-  body      String  
+  body   String @db.Text  
   type      String   @default("info")
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -191,7 +191,7 @@ model CrmNote {
   agentId   String
   lead      Lead?    @relation(fields: [leadId], references: [id], onDelete: Cascade)
   leadId    String?
-  note      String  
+  note   String @db.Text  
   createdAt DateTime @default(now())
 }
 
@@ -231,7 +231,7 @@ model ValuationRequest {
   condition    String?
   ownership    String?
   timeline     String?
-  message      String? 
+  message      String? @db.Text 
   status       String   @default("new")
   createdAt    DateTime @default(now())
 }
@@ -259,11 +259,11 @@ model Agent {
   phone             String
   whatsapp          String
   email             String   @unique
-  languages         String  
-  specializations   String  
-  communities       String  
-  biography         String  
-  awards            String  
+  languages     String @db.Text  
+  specializations  String @db.Text  
+  communities    String @db.Text  
+  biography     String @db.Text  
+  awards      String @db.Text  
   rating            Float    @default(5.0)
   reviewsCount      Int      @default(0)
   activeListings    Int      @default(0)
@@ -283,21 +283,21 @@ model Community {
   name            String
   shortName       String
   hero            String
-  overview        String  
-  lifestyle       String  
+  overview    String @db.Text  
+  lifestyle    String @db.Text  
   averagePrice    String
   pricePerSqft    String
   roi             String
   population      String
   totalProperties Int
   rating          Float    @default(4.5)
-  highlights      String  
-  schools         String  
-  hospitals       String  
-  transport       String  
-  shopping        String  
-  nearbyCommunities String
-  stats           String  
+  highlights   String @db.Text  
+  schools     String @db.Text  
+  hospitals    String @db.Text  
+  transport    String @db.Text  
+  shopping    String @db.Text  
+  nearbyCommunities String @db.Text
+  stats      String @db.Text  
   published       Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -309,13 +309,13 @@ model Developer {
   logo              String
   founded           String
   headquarters      String
-  overview          String  
+  overview     String @db.Text  
   totalProjects     Int
   completedProjects Int
   ongoingProjects   Int
-  awards            String  
+  awards      String @db.Text  
   hero              String
-  topProjects       String  
+  topProjects    String @db.Text  
   published         Boolean  @default(true)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -324,13 +324,13 @@ model Developer {
 model BlogPost {
   id        String   @id @default(cuid())
   title     String
-  excerpt   String
+  excerpt  String @db.Text
   category  String
   date      DateTime @default(now())
   readTime  String
   authorName String
   image     String
-  content   String? 
+  content   String? @db.Text 
   published Boolean  @default(true)
   authorId  String?
   author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
@@ -345,7 +345,7 @@ model Testimonial {
   location  String
   avatar    String
   rating    Int      @default(5)
-  quote     String  
+  quote   String @db.Text  
   service   String
   published Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -364,7 +364,7 @@ model Award {
 model SiteSetting {
   id        String   @id @default(cuid())
   key       String   @unique
-  value     String  
+  value   String @db.Text  
   category  String   @default("general")
   updatedAt DateTime @updatedAt
 }
@@ -375,7 +375,7 @@ model AuditLog {
   action    String
   entity    String?
   entityId  String?
-  meta      String? 
+  meta      String? @db.Text 
   createdAt DateTime @default(now())
 }
 
@@ -385,7 +385,7 @@ model HeroSlide {
   heading1  String
   heading2  String
   heading3  String?
-  subtitle  String  
+  subtitle String @db.Text  
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -428,7 +428,7 @@ model ActivityLog {
   action    String
   entity    String
   entityId  String?
-  details   String? 
+  details   String? @db.Text 
   ipAddress String?
   createdAt DateTime @default(now())
 }
@@ -450,7 +450,7 @@ model MediaFile {
 model Popup {
   id          String   @id @default(cuid())
   title       String
-  content     String  
+  content   String @db.Text  
   type        String   @default("info")
   trigger     String   @default("immediate")
   delaySeconds Int     @default(0)
@@ -468,15 +468,15 @@ model Popup {
 model SeoMeta {
   id              String   @id @default(cuid())
   pageSlug        String   @unique
-  metaTitle       String?
-  metaDescription String? 
+  metaTitle       String? @db.Text
+  metaDescription String? @db.Text 
   canonicalUrl    String?
   ogTitle         String?
-  ogDescription   String? 
+  ogDescription   String? @db.Text 
   ogImage         String?
-  twitterCard     String?  @default("summary_large_image")
+  twitterCard     String? @db.Text  @default("summary_large_image")
   keywords        String?
-  structuredData  String? 
+  structuredData  String? @db.Text 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -504,9 +504,9 @@ model EmailTemplate {
   name        String   @unique
   slug        String   @unique
   subject     String
-  body        String  
+  body    String @db.Text  
   category    String   @default("transactional")
-  variables   String? 
+  variables   String? @db.Text 
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -516,14 +516,14 @@ model LandingPage {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  headline    String
-  subheadline String?
-  body        String  
+  headline  String @db.Text
+  subheadline String? @db.Text
+  body    String @db.Text  
   heroImage   String?
   ctaText     String?
   ctaLink     String?
-  seoTitle    String?
-  seoDescription String?
+  seoTitle    String? @db.Text
+  seoDescription String? @db.Text
   status      String   @default("draft")
   publishedAt DateTime?
   createdAt   DateTime @default(now())
@@ -534,15 +534,15 @@ model ReportSnapshot {
   id          String   @id @default(cuid())
   type        String
   period      String
-  summary     String  
+  summary   String @db.Text  
   generatedBy String?
   createdAt   DateTime @default(now())
 }
 
 model Faq {
   id        String   @id @default(cuid())
-  question  String
-  answer    String  
+  question String @db.Text
+  answer  String @db.Text  
   category  String   @default("general")
   order     Int      @default(0)
   published Boolean  @default(true)
@@ -558,7 +558,7 @@ model Video {
   category    String   @default("Market Insights")
   duration    String   @default("0:00")
   thumbnail   String
-  description String  
+  description String @db.Text  
   videoUrl    String?
   youtubeUrl  String?
   order       Int      @default(0)
@@ -570,11 +570,11 @@ model Video {
 model StoryEvent {
   id          String   @id @default(cuid())
   title       String
-  description String  
+  description String @db.Text  
   eventDate   DateTime
   location    String?
   category    String   @default("milestone")
-  images      String   @default("[]")
+  images   String @db.Text  @default("[]")
   videoUrl    String?
   highlighted Boolean  @default(false)
   order       Int      @default(0)
