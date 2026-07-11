@@ -11,7 +11,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && node scripts/fix-agent-order.js"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
