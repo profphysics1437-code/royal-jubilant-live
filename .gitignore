@@ -1,10 +1,8 @@
 node_modules/
 .next/
-.env
 *.log
 deploy-hostinger/
 deploy-vercel/
 upload/
 download/
 scripts/*.log
-.env
