@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WireframeRobot } from './WireframeRobot';
 import { X, Send, Sparkles, Volume2 } from 'lucide-react';
 
 type Phase = 'dormant' | 'charging' | 'opening' | 'emerging' | 'landing' | 'waving' | 'chat';
@@ -262,7 +263,7 @@ export default function AIChatWidget() {
 
           {/* Robot inside orb — compact */}
           {(phase === 'waving' || phase === 'landing' || phase === 'emerging' || phase === 'dormant') && (
-            <PremiumRobot animate={phase === 'waving'} />
+            <WireframeRobot size={22} animate={phase === 'waving'} />
           )}
 
           {/* Blue concentric circles (opening phase) */}

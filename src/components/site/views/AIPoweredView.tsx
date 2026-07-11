@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Sparkles, Bot, MessageSquare, MousePointerClick, Zap } from 'lucide-react';
 import { useSiteSettings } from '@/lib/useSiteSettings';
+import { WireframeRobotLarge } from '@/components/ai/WireframeRobot';
 
 export function AIPoweredView() {
   const { get } = useSiteSettings();
@@ -49,7 +50,7 @@ export function AIPoweredView() {
               <motion.div animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: 'linear' }} className="absolute inset-8 rounded-full border border-[#C9A961]/20" />
               {/* Gold orb with robot */}
               <div className="absolute inset-16 rounded-full bg-gradient-to-br from-[#C9A961] via-[#A68A3F] to-[#0A1F44] flex items-center justify-center shadow-2xl">
-                <PremiumRobotLarge />
+                <WireframeRobotLarge size={80} />
               </div>
               {/* Gold pulse */}
               <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }} className="absolute -top-2 -right-2 w-6 h-6 bg-[#C9A961] rounded-full shadow-lg shadow-[#C9A961]/50" />
