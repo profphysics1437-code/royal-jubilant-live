@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { LandingPageLeadForm } from "@/components/site/LandingPageLeadForm";
 
+// Force dynamic — don't evaluate at build time
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const page = await db.landingPage.findUnique({ where: { slug } });
