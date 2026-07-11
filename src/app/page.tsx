@@ -1,7 +1,8 @@
 "use client";
 
-// Force dynamic rendering on Vercel
 export const dynamic = "force-dynamic";
+
+// Force dynamic rendering on Vercel
 
 
 import { useEffect } from "react";
