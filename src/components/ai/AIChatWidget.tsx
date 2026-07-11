@@ -103,7 +103,7 @@ export default function AIChatWidget() {
 
   return (
     <div style={{ position: 'fixed', bottom: 20, left: 20, zIndex: 9999, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      {/* === CHAT PANEL === */}
+      {/* === CHAT PANEL — Premium dark glass per reference video === */}
       <AnimatePresence>
         {phase === 'chat' && (
           <motion.div
@@ -115,13 +115,12 @@ export default function AIChatWidget() {
               position: 'absolute', bottom: 70, left: 0,
               width: 380, maxWidth: 'calc(100vw - 40px)',
               height: 580, maxHeight: 'calc(100vh - 120px)',
-              // 3D Glass effect: 30% transparent, blur, gold border, inner highlights
-              background: 'rgba(30, 58, 138, 0.3)',
+              background: 'rgba(10, 15, 30, 0.3)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(212, 175, 55, 0.4)',
+              border: '1px solid rgba(74, 144, 226, 0.4)',
               borderRadius: 12,
-              boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(30,58,138,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(74,144,226,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
               overflow: 'hidden',
               display: 'flex', flexDirection: 'column',
               transformStyle: 'preserve-3d',
@@ -131,32 +130,32 @@ export default function AIChatWidget() {
             {/* Header */}
             <div style={{
               padding: '14px 16px',
-              background: 'linear-gradient(135deg, rgba(212,175,55,0.15), rgba(30,58,138,0.6))',
-              borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
+              background: 'linear-gradient(135deg, rgba(74,144,226,0.15), rgba(10,15,30,0.6))',
+              borderBottom: '1px solid rgba(74, 144, 226, 0.3)',
               display: 'flex', alignItems: 'center', gap: 10,
             }}>
-              {/* Small orb avatar */}
+              {/* Robot avatar in header */}
               <div style={{
                 width: 36, height: 36, borderRadius: '50%',
-                background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(30,58,138,0.95))',
+                background: 'radial-gradient(circle at 30% 30%, rgba(74,144,226,0.3), rgba(10,15,30,0.95))',
                 border: '1.5px solid rgba(212, 175, 55, 0.5)',
-                boxShadow: '0 0 10px rgba(30,58,138,0.5)',
+                boxShadow: '0 0 10px rgba(74,144,226,0.4)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0,
               }}>
-                <SmallRobot />
+                <MiniRobotHead />
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: '0.5px' }}>RJ AI Assistant</div>
-                <div style={{ color: '#D4AF37', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div style={{ color: '#4a90e2', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
                   <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#28a745', boxShadow: '0 0 6px #28a745' }} />
                   Online · Your AI Real Estate Concierge
                 </div>
               </div>
-              <button onClick={() => setMuted(!muted)} style={{ background: 'transparent', border: 'none', color: muted ? '#6c757d' : '#D4AF37', cursor: 'pointer', padding: 6, borderRadius: 6 }} title={muted ? 'Unmute' : 'Mute'}>
+              <button onClick={() => setMuted(!muted)} style={{ background: 'transparent', border: 'none', color: muted ? '#6c757d' : '#4a90e2', cursor: 'pointer', padding: 6, borderRadius: 6 }}>
                 <Volume2 size={16} />
               </button>
-              <button onClick={closeChat} style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', padding: 6, borderRadius: 6 }} title="Close">
+              <button onClick={closeChat} style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', padding: 6, borderRadius: 6 }}>
                 <X size={18} />
               </button>
             </div>
@@ -169,7 +168,7 @@ export default function AIChatWidget() {
                   borderRadius: m.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
                   background: m.role === 'user' ? 'linear-gradient(135deg, #D4AF37, #B8941E)' : 'rgba(255,255,255,0.08)',
                   color: '#fff', fontSize: 13.5, lineHeight: 1.5,
-                  border: m.role === 'user' ? 'none' : '1px solid rgba(212,175,55,0.2)',
+                  border: m.role === 'user' ? 'none' : '1px solid rgba(74,144,226,0.2)',
                   whiteSpace: 'pre-wrap', wordBreak: 'break-word',
                 }}>
                   {m.content}
@@ -179,21 +178,22 @@ export default function AIChatWidget() {
               {loading && (
                 <div style={{ alignSelf: 'flex-start', display: 'flex', gap: 4, padding: '10px 14px' }}>
                   {[0,1,2].map(i => (
-                    <motion.span key={i} animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }} style={{ width: 6, height: 6, borderRadius: '50%', background: '#D4AF37' }} />
+                    <motion.span key={i} animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }} style={{ width: 6, height: 6, borderRadius: '50%', background: '#4a90e2' }} />
                   ))}
                 </div>
               )}
+              {/* Quick Actions */}
               {messages.length <= 1 && !loading && (
                 <div style={{ marginTop: 8 }}>
-                  <div style={{ color: 'rgba(212,175,55,0.6)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>Quick Actions</div>
+                  <div style={{ color: 'rgba(74,144,226,0.6)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>Quick Actions</div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
                     {['Find Luxury Villas', 'Show Apartments', 'Investment Opportunities', 'Market Insights', 'Schedule a Viewing', 'Contact an Agent', 'Best Communities', 'Off-plan Projects'].map(qa => (
                       <button key={qa} onClick={() => sendMessage(qa)} style={{
-                        padding: '9px 10px', fontSize: 11, background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.25)',
+                        padding: '9px 10px', fontSize: 11, background: 'rgba(74,144,226,0.08)', border: '1px solid rgba(74,144,226,0.25)',
                         borderRadius: 8, color: '#fff', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s',
                       }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,175,55,0.18)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,175,55,0.5)'; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,175,55,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,175,55,0.25)'; }}>
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(74,144,226,0.18)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,144,226,0.5)'; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(74,144,226,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,144,226,0.25)'; }}>
                         <Sparkles size={10} style={{ display: 'inline', marginRight: 4, color: '#D4AF37' }} />{qa}
                       </button>
                     ))}
@@ -203,21 +203,21 @@ export default function AIChatWidget() {
             </div>
 
             {/* Input */}
-            <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(212, 175, 55, 0.2)', display: 'flex', gap: 8, background: 'rgba(30,58,138,0.5)' }}>
-              <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }} placeholder="Type your message..." disabled={loading} style={{
-                flex: 1, padding: '10px 14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(212,175,55,0.25)', borderRadius: 8, color: '#fff', fontSize: 13, outline: 'none',
+            <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(74, 144, 226, 0.3)', display: 'flex', gap: 8, background: 'rgba(10,15,30,0.5)' }}>
+              <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }} placeholder="Type a message..." disabled={loading} style={{
+                flex: 1, padding: '10px 14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(74,144,226,0.25)', borderRadius: 8, color: '#fff', fontSize: 13, outline: 'none',
               }} />
               <button onClick={() => sendMessage()} disabled={loading || !input.trim()} style={{
-                width: 40, height: 40, borderRadius: 8, background: input.trim() ? 'linear-gradient(135deg, #D4AF37, #B8941E)' : 'rgba(100,100,100,0.3)',
+                width: 40, height: 40, borderRadius: 8, background: input.trim() ? 'linear-gradient(135deg, #4a90e2, #2c6cb0)' : 'rgba(100,100,100,0.3)',
                 border: 'none', color: '#fff', cursor: input.trim() ? 'pointer' : 'not-allowed', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: input.trim() ? '0 0 10px rgba(212,175,55,0.4)' : 'none',
+                boxShadow: input.trim() ? '0 0 10px rgba(74,144,226,0.4)' : 'none',
               }}><Send size={16} /></button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* === HOLOGRAPHIC ORB — Bottom-LEFT, navy blue, gold ring, white particles === */}
+      {/* === PREMIUM GLASS ORB — Per reference video === */}
       {phase !== 'chat' && (
         <motion.button
           onClick={openChat}
@@ -235,44 +235,112 @@ export default function AIChatWidget() {
           aria-label="Open RJ AI Assistant"
           style={{
             position: 'relative',
-            width: 50, height: 50,
+            width: 70, height: 70,
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.5), rgba(30,58,138,0.85) 50%, rgba(15,25,60,0.95))',
-            border: '2px solid rgba(212, 175, 55, 0.7)',
-            boxShadow: '0 0 20px rgba(30,58,138,0.6), 0 0 40px rgba(30,58,138,0.3), inset 0 2px 6px rgba(255,255,255,0.3), inset 0 -2px 6px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.2)',
             cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: 0,
+            background: 'transparent',
+            border: 'none',
           }}
         >
-          {/* Inner glow */}
-          <div style={{ position: 'absolute', inset: 4, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.3), transparent 70%)', pointerEvents: 'none' }} />
-
-          {/* Robot inside orb */}
-          <SmallRobot size={28} />
-
-          {/* Gold ring around orb (semi-transparent, glow) */}
+          {/* Glass orb — transparent with blue tint */}
           <div style={{
-            position: 'absolute', inset: -3, borderRadius: '50%',
-            border: '1px solid rgba(212, 175, 55, 0.5)',
-            boxShadow: '0 0 8px rgba(212,175,55,0.3)',
-            pointerEvents: 'none',
+            position: 'absolute', inset: 0,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,0.3), rgba(74,144,226,0.15) 40%, rgba(10,25,47,0.4) 80%)',
+            border: '1.5px solid rgba(74,144,226,0.5)',
+            boxShadow: '0 0 30px rgba(74,144,226,0.4), inset 0 2px 8px rgba(255,255,255,0.15), inset 0 -2px 8px rgba(0,0,0,0.3)',
           }} />
 
-          {/* White glowing particles around orb (3-4 dots) */}
+          {/* Glass shine top */}
+          <div style={{
+            position: 'absolute', top: 4, left: 14, width: 32, height: 16,
+            background: 'radial-gradient(ellipse, rgba(255,255,255,0.6), transparent 70%)',
+            borderRadius: '50%', pointerEvents: 'none',
+          }} />
+
+          {/* Golden swirling energy rings inside orb (idle) */}
+          {(phase === 'dormant' || phase === 'charging') && (
+            <>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+                style={{
+                  position: 'absolute', inset: 10,
+                  borderRadius: '50%',
+                  border: '1.5px solid transparent',
+                  borderTopColor: 'rgba(212,175,55,0.8)',
+                  borderRightColor: 'rgba(212,175,55,0.3)',
+                }}
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+                style={{
+                  position: 'absolute', inset: 16,
+                  borderRadius: '50%',
+                  border: '1px solid transparent',
+                  borderBottomColor: 'rgba(212,175,55,0.6)',
+                }}
+              />
+            </>
+          )}
+
+          {/* Robot inside orb */}
+          {(phase === 'waving' || phase === 'landing' || phase === 'emerging' || phase === 'dormant') && (
+            <PremiumRobot animate={phase === 'waving'} />
+          )}
+
+          {/* Blue concentric circles (opening phase) */}
+          {phase === 'opening' && (
+            <>
+              {[0, 1, 2].map(i => (
+                <motion.div
+                  key={i}
+                  initial={{ scale: 0.5, opacity: 0.8 }}
+                  animate={{ scale: 1.5, opacity: 0 }}
+                  transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                  style={{
+                    position: 'absolute', inset: 0,
+                    borderRadius: '50%',
+                    border: '2px solid rgba(74,144,226,0.6)',
+                  }}
+                />
+              ))}
+            </>
+          )}
+
+          {/* Blue glowing platform (landing phase) */}
+          {(phase === 'landing' || phase === 'waving') && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              style={{
+                position: 'absolute', bottom: -4, left: '50%',
+                transform: 'translateX(-50%)',
+                width: 50, height: 8,
+                borderRadius: '50%',
+                background: 'radial-gradient(ellipse, rgba(74,144,226,0.6), transparent 70%)',
+                boxShadow: '0 0 15px rgba(74,144,226,0.5)',
+              }}
+            />
+          )}
+
+          {/* Floating blue particles */}
           {[
-            { top: -4, left: 8 },
-            { top: 12, right: -4 },
-            { bottom: -2, left: 20 },
-            { top: 4, left: -3 },
+            { top: -6, left: 10 },
+            { top: 15, right: -6 },
+            { bottom: -4, left: 25 },
+            { top: 5, left: -5 },
           ].map((pos, i) => (
             <motion.div
               key={i}
-              animate={{ opacity: [0.5, 0.9, 0.5], scale: [0.8, 1.1, 0.8] }}
-              transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
+              animate={{ opacity: [0.4, 0.9, 0.4], y: [0, -4, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.5 }}
               style={{
                 position: 'absolute', width: 3, height: 3, borderRadius: '50%',
-                background: '#fff', boxShadow: '0 0 4px #fff',
+                background: '#4a90e2', boxShadow: '0 0 5px #4a90e2',
                 ...pos,
               }}
             />
@@ -280,16 +348,23 @@ export default function AIChatWidget() {
 
           {/* Pulse ring when dormant */}
           {phase === 'dormant' && (
-            <motion.div animate={{ scale: [1, 1.4], opacity: [0.4, 0] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut' }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(30,58,138,0.6)', pointerEvents: 'none' }} />
+            <motion.div
+              animate={{ scale: [1, 1.5], opacity: [0.4, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut' }}
+              style={{
+                position: 'absolute', inset: 0, borderRadius: '50%',
+                border: '2px solid rgba(74,144,226,0.5)', pointerEvents: 'none',
+              }}
+            />
           )}
 
           {/* Charging particles */}
-          {(phase === 'charging' || phase === 'opening' || phase === 'emerging') && (
+          {(phase === 'charging' || phase === 'emerging') && (
             <>
               {[0, 1, 2, 3, 4].map(i => {
                 const angle = (i * 72 * Math.PI) / 180;
                 return (
-                  <motion.div key={i} initial={{ x: 0, y: 0, opacity: 0 }} animate={{ x: Math.cos(angle) * 30, y: Math.sin(angle) * 30, opacity: [0, 1, 0] }} transition={{ duration: 0.8, delay: i * 0.08, repeat: Infinity }} style={{ position: 'absolute', width: 3, height: 3, borderRadius: '50%', background: '#D4AF37', boxShadow: '0 0 6px #D4AF37' }} />
+                  <motion.div key={i} initial={{ x: 0, y: 0, opacity: 0 }} animate={{ x: Math.cos(angle) * 40, y: Math.sin(angle) * 40, opacity: [0, 1, 0] }} transition={{ duration: 0.8, delay: i * 0.08, repeat: Infinity }} style={{ position: 'absolute', width: 3, height: 3, borderRadius: '50%', background: '#D4AF37', boxShadow: '0 0 6px #D4AF37' }} />
                 );
               })}
             </>
@@ -302,13 +377,13 @@ export default function AIChatWidget() {
         {phase === 'waving' && (
           <motion.div initial={{ opacity: 0, x: -20, scale: 0.8 }} animate={{ opacity: 1, x: 0, scale: 1 }} exit={{ opacity: 0, x: -20, scale: 0.8 }} style={{
             position: 'absolute', bottom: 80, left: 60, width: 200, padding: '12px 16px',
-            background: 'rgba(30, 58, 138, 0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(212, 175, 55, 0.4)', borderRadius: 12, color: '#fff', fontSize: 13,
-            boxShadow: '0 10px 30px rgba(0,0,0,0.4), 0 0 40px rgba(30,58,138,0.3)',
+            background: 'rgba(10, 15, 30, 0.75)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(74, 144, 226, 0.4)', borderRadius: 12, color: '#fff', fontSize: 13,
+            boxShadow: '0 10px 30px rgba(0,0,0,0.4), 0 0 40px rgba(74,144,226,0.3)',
           }}>
-            <div style={{ fontWeight: 600, marginBottom: 4, fontSize: 13, color: '#D4AF37' }}>👋 Hi, I'm RJ AI</div>
+            <div style={{ fontWeight: 600, marginBottom: 4, fontSize: 13, color: '#4a90e2' }}>👋 Hi, I'm RJ AI</div>
             <div style={{ color: '#ced4da', fontSize: 12, lineHeight: 1.4 }}>Your AI Real Estate Concierge. Tap me to chat!</div>
-            <div style={{ position: 'absolute', bottom: -6, left: 24, width: 12, height: 12, background: 'rgba(30, 58, 138, 0.85)', borderLeft: '1px solid rgba(212, 175, 55, 0.4)', borderBottom: '1px solid rgba(212, 175, 55, 0.4)', transform: 'rotate(45deg)' }} />
+            <div style={{ position: 'absolute', bottom: -6, left: 24, width: 12, height: 12, background: 'rgba(10, 15, 30, 0.75)', borderLeft: '1px solid rgba(74, 144, 226, 0.4)', borderBottom: '1px solid rgba(74, 144, 226, 0.4)', transform: 'rotate(45deg)' }} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -316,27 +391,89 @@ export default function AIChatWidget() {
   );
 }
 
-// Small robot icon (cartoonish, white eyes) — used in orb and header
-function SmallRobot({ size = 24 }: { size?: number }) {
+// === Mini Robot Head for header ===
+function MiniRobotHead() {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" style={{ position: 'relative', zIndex: 2 }}>
-      {/* Antenna */}
-      <line x1="16" y1="4" x2="16" y2="2" stroke="#D4AF37" strokeWidth="0.8" />
-      <circle cx="16" cy="1.5" r="0.8" fill="#D4AF37" />
-      {/* Head */}
-      <rect x="8" y="5" width="16" height="12" rx="4" fill="#fff" stroke="#D4AF37" strokeWidth="0.6" />
-      {/* Eyes (white dots) */}
-      <circle cx="12" cy="10" r="1.5" fill="#fff" stroke="#1E3A8A" strokeWidth="0.5" />
-      <circle cx="20" cy="10" r="1.5" fill="#fff" stroke="#1E3A8A" strokeWidth="0.5" />
-      <circle cx="12" cy="10" r="0.6" fill="#1E3A8A" />
-      <circle cx="20" cy="10" r="0.6" fill="#1E3A8A" />
-      {/* Smile */}
-      <path d="M12 13 Q16 15 20 13" stroke="#1E3A8A" strokeWidth="0.6" fill="none" strokeLinecap="round" />
-      {/* Body */}
-      <rect x="10" y="17" width="12" height="9" rx="3" fill="#fff" stroke="#D4AF37" strokeWidth="0.6" />
-      {/* Gold RJ emblem on chest */}
-      <circle cx="16" cy="21" r="2" fill="#D4AF37" />
-      <text x="16" y="22.5" textAnchor="middle" fontSize="2.5" fontWeight="bold" fill="#1E3A8A">RJ</text>
+    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+      {/* Helmet */}
+      <ellipse cx="16" cy="14" rx="9" ry="8" fill="#fff" stroke="#D4AF37" strokeWidth="0.6" />
+      {/* Black visor */}
+      <path d="M8 12 Q16 8 24 12 L24 15 Q16 18 8 15 Z" fill="#0A0F1E" />
+      {/* Blue glowing eyes */}
+      <ellipse cx="12" cy="13" rx="1.5" ry="1" fill="#4a90e2"><animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" /></ellipse>
+      <ellipse cx="20" cy="13" rx="1.5" ry="1" fill="#4a90e2"><animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" /></ellipse>
+      {/* Gold accent on helmet */}
+      <line x1="16" y1="6" x2="16" y2="8" stroke="#D4AF37" strokeWidth="0.8" />
+      <circle cx="16" cy="5.5" r="1" fill="#D4AF37" />
+    </svg>
+  );
+}
+
+// === Premium Robot per reference video ===
+// White helmet with black visor, blue glowing eyes, gold accents
+function PremiumRobot({ animate }: { animate: boolean }) {
+  return (
+    <svg width="40" height="40" viewBox="0 0 50 50" fill="none" style={{ position: 'relative', zIndex: 2 }}>
+      {/* Antenna with gold tip */}
+      <line x1="25" y1="5" x2="25" y2="2" stroke="#D4AF37" strokeWidth="0.8" />
+      <circle cx="25" cy="1.5" r="1" fill="#D4AF37">
+        <animate attributeName="opacity" values="1;0.4;1" dur="1.5s" repeatCount="indefinite" />
+      </circle>
+
+      {/* White helmet/head */}
+      <ellipse cx="25" cy="14" rx="11" ry="10" fill="#ffffff" stroke="#e0e0e0" strokeWidth="0.6" />
+
+      {/* Black visor (curved) */}
+      <path d="M15 12 Q25 8 35 12 L35 16 Q25 19 15 16 Z" fill="#0A0F1E" />
+
+      {/* Blue glowing oval eyes */}
+      <motion.g animate={animate ? { cy: [13, 12, 13] } : {}} transition={{ duration: 0.8, repeat: Infinity }}>
+        <ellipse cx="20" cy="13" rx="2" ry="1.3" fill="#4a90e2">
+          <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" />
+          {animate && <animate attributeName="ry" values="1.3;0.3;1.3" dur="0.8s" repeatCount="indefinite" />}
+        </ellipse>
+        <ellipse cx="30" cy="13" rx="2" ry="1.3" fill="#4a90e2">
+          <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" />
+          {animate && <animate attributeName="ry" values="1.3;0.3;1.3" dur="0.8s" repeatCount="indefinite" />}
+        </ellipse>
+      </motion.g>
+
+      {/* Gold ear accents */}
+      <circle cx="14" cy="14" r="1.5" fill="#D4AF37" />
+      <circle cx="36" cy="14" r="1.5" fill="#D4AF37" />
+
+      {/* Neck */}
+      <rect x="23" y="23" width="4" height="3" fill="#e0e0e0" />
+
+      {/* White body with gold accents */}
+      <ellipse cx="25" cy="36" rx="11" ry="8" fill="#ffffff" stroke="#e0e0e0" strokeWidth="0.6" />
+
+      {/* Gold chest panel with blue LED */}
+      <circle cx="25" cy="34" r="4" fill="#D4AF37" stroke="#B8941E" strokeWidth="0.5" />
+      <circle cx="25" cy="34" r="2" fill="#4a90e2">
+        <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" />
+      </circle>
+
+      {/* Gold joint accents */}
+      <circle cx="14" cy="32" r="1.2" fill="#D4AF37" />
+      <circle cx="36" cy="32" r="1.2" fill="#D4AF37" />
+
+      {/* Waving arm (right) */}
+      {animate ? (
+        <motion.g
+          animate={{ rotate: [0, 30, -10, 30, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity }}
+          style={{ transformOrigin: '36px 32px' }}
+        >
+          <line x1="36" y1="32" x2="42" y2="24" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="42.5" cy="23.5" r="2" fill="#ffffff" stroke="#e0e0e0" strokeWidth="0.5" />
+        </motion.g>
+      ) : (
+        <line x1="36" y1="32" x2="40" y2="38" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+      )}
+
+      {/* Left arm static */}
+      <line x1="14" y1="32" x2="10" y2="38" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
