@@ -107,22 +107,25 @@ export default function AIChatWidget() {
       <AnimatePresence>
         {phase === 'chat' && (
           <motion.div
-            initial={{ opacity: 0, x: -50, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -50, scale: 0.9 }}
+            initial={{ opacity: 0, x: -50, scale: 0.9, rotateY: 15 }}
+            animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0 }}
+            exit={{ opacity: 0, x: -50, scale: 0.9, rotateY: 15 }}
             transition={{ type: 'spring', stiffness: 280, damping: 24 }}
             style={{
               position: 'absolute', bottom: 70, left: 0,
               width: 380, maxWidth: 'calc(100vw - 40px)',
               height: 580, maxHeight: 'calc(100vh - 120px)',
-              background: 'rgba(30, 58, 138, 0.85)',
+              // 3D Glass effect: 30% transparent, blur, gold border, inner highlights
+              background: 'rgba(30, 58, 138, 0.3)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
+              border: '1px solid rgba(212, 175, 55, 0.4)',
               borderRadius: 12,
-              boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(30,58,138,0.3)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(30,58,138,0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
               overflow: 'hidden',
               display: 'flex', flexDirection: 'column',
+              transformStyle: 'preserve-3d',
+              perspective: 1000,
             }}
           >
             {/* Header */}
