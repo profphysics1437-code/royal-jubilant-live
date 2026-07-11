@@ -313,6 +313,28 @@ export const agents: Agent[] = [
     experienceYears: 7,
     socials: { linkedin: "#", instagram: "#" },
   },
+  {
+    id: "ag-009",
+    name: "Awais Ali",
+    title: "Property Consultant",
+    photo:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
+    phone: "+971 4 327 8401",
+    whatsapp: "971524942329",
+    email: "info@royaljubilant.ae",
+    languages: ["English", "Urdu", "Punjabi"],
+    specializations: ["Luxury Penthouses", "Branded Residences", "Waterfront Properties"],
+    communities: ["Dubai Marina", "Palm Jumeirah", "Bluewaters Island", "Dubai Creek Harbour"],
+    biography:
+      "Awais Ali specializes in luxury penthouses and branded residences across Dubai's most prestigious waterfront communities. With a keen eye for investment-grade properties, he advises high-net-worth clients on trophy assets and waterfront acquisitions.",
+    awards: ["RERA Certified Property Consultant"],
+    rating: 4.9,
+    reviewsCount: 51,
+    activeListings: 25,
+    soldProperties: 62,
+    experienceYears: 6,
+    socials: { linkedin: "#", instagram: "#" },
+  },
 ];
 
 // ============================================================================
@@ -1190,6 +1212,39 @@ export const testimonials: Testimonial[] = [
     quote:
       "Sofia understood exactly the kind of waterfront branded residence we wanted. The Cavalli penthouse she placed us in has surpassed every expectation.",
     service: "Branded Residence Acquisition",
+  },
+  {
+    id: "t-005",
+    name: "Aisha Al Marri",
+    role: "Verified Client",
+    location: "Dubai Marina",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    rating: 5,
+    quote:
+      "Found my dream 2BR apartment in Dubai Marina within 48 hours. The team understood exactly what I wanted and negotiated a great rate. Truly five-star service.",
+    service: "Tenant",
+  },
+  {
+    id: "t-006",
+    name: "James Patterson",
+    role: "Verified Client",
+    location: "Business Bay",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+    rating: 5,
+    quote:
+      "As an expat buying my first property in Dubai, I was nervous. Royal Jubilant made the entire process seamless — from viewings to NOC to handover. Highly recommend.",
+    service: "Buyer",
+  },
+  {
+    id: "t-007",
+    name: "Sana Khan",
+    role: "Verified Client",
+    location: "JVC",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+    rating: 5,
+    quote:
+      "I invested in an off-plan project in JVC based on their advice. The ROI has exceeded expectations. Their market knowledge is genuinely unmatched in Dubai.",
+    service: "Investor",
   },
 ];
 
