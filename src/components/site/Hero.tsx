@@ -90,12 +90,12 @@ export function Hero() {
           <div className="container mx-auto px-4 lg:px-6">
             <div className="max-w-3xl mx-auto">
               {/* Main search bar — single solid white row */}
-              <div className="flex flex-col md:flex-row gap-2 items-stretch bg-white rounded-lg shadow-2xl p-2">
+              <div className="flex flex-col md:flex-row gap-2 items-stretch bg-white rounded-xl shadow-2xl p-2">
                 {/* Section 1: RENT/BUY dropdown (navy) */}
                 <div className="relative">
                   <button
                     onClick={() => setPurpose(purpose === "rent" ? "buy" : "rent")}
-                    className="w-full md:w-auto flex items-center justify-between gap-3 px-5 py-4 bg-[#0A1F44] text-white text-sm font-bold rounded-lg uppercase tracking-wide hover:bg-[#0A1F44]/90 transition-colors min-w-[120px]"
+                    className="w-full md:w-auto flex items-center justify-between gap-2 px-4 py-3 bg-[#0A1F44] text-white text-sm font-bold rounded-lg uppercase tracking-wide hover:bg-[#0A1F44]/90 transition-colors"
                   >
                     {purpose}
                     <ChevronDown className="size-4" />
@@ -108,7 +108,7 @@ export function Hero() {
                   <select
                     value={searchFilters.location}
                     onChange={(e) => setSearchFilters({ location: e.target.value })}
-                    className="w-full h-full min-h-[56px] pl-11 pr-10 text-sm font-medium bg-transparent text-gray-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C9A961] rounded-lg [&>option]:text-[#0A1F44]"
+                    className="w-full h-full min-h-[48px] pl-11 pr-10 text-sm font-medium bg-transparent text-gray-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C9A961] rounded-lg [&>option]:text-[#0A1F44]"
                   >
                     <option value="">Community or Building</option>
                     {communityOptions.map((c) => (<option key={c} value={c}>{c}</option>))}
@@ -120,7 +120,7 @@ export function Hero() {
                 {/* Section 3: SEARCH button (gold) */}
                 <button
                   onClick={handleSearch}
-                  className="flex items-center justify-center gap-2 px-8 py-4 bg-[#C9A961] hover:bg-[#A68A3F] text-white text-sm font-bold rounded-lg uppercase tracking-wide transition-colors min-w-[140px]"
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-[#C9A961] hover:bg-[#A68A3F] text-white text-sm font-bold rounded-lg uppercase tracking-wide transition-colors"
                 >
                   <Search className="size-4" />
                   Search
