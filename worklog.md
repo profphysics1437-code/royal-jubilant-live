@@ -137,3 +137,29 @@ Stage Summary:
 - This was the root cause of: MySQL migration failures, admin login failures, all DB-dependent features
 - Hostinger will now: (1) pull latest code, (2) run `npm install` → triggers `postinstall` → runs `prisma generate` + `auto-migrate-mysql.js`, (3) migration script connects with correct password, (4) data migrates from SQLite to MySQL, (5) app starts with working DB
 - User should wait 3-5 minutes for Hostinger to rebuild, then test admin login at /admin
+
+---
+Task ID: 7
+Agent: Main Agent
+Task: Admin login fails — "Access denied. Admin credentials required" error on /admin/login
+
+Work Log:
+- Analyzed screenshot from user — login page loads correctly, but NextAuth authorize() returns null
+- Root cause: MySQL database on Hostinger doesn't have admin user (data didn't migrate)
+- Created `scripts/recover-admin.js` — emergency recovery script
+- Script does:
+  1. Pushes Prisma schema to MySQL (creates tables)
+  2. Creates admin user with admin@royaljubilant.ae / admin123 (bcrypt hash)
+  3. Migrates all other data from SQLite (bonus)
+  4. Creates marker file so postinstall won't re-run
+- Committed and pushed as 80ac46d
+- Provided SSH instructions to user
+
+Stage Summary:
+- User needs to:
+  1. Open Hostinger SSH Web Terminal
+  2. cd domains/royaljubilant.com/public_html
+  3. git pull (to get the recovery script)
+  4. node scripts/recover-admin.js
+  5. Try login at /admin/login
+- After successful login, all DB operations should work
