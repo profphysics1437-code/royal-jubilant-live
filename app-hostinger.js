@@ -1,68 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-
-// ═══════════════════════════════════════════════════════════
-// ENVIRONMENT VARIABLES
-// ═══════════════════════════════════════════════════════════
-
-// Database — SQLite (absolute path)
-const dbFile = path.join(__dirname, 'db', 'custom.db');
-if (!fs.existsSync(path.dirname(dbFile))) fs.mkdirSync(path.dirname(dbFile), { recursive: true });
-process.env.DATABASE_URL = 'file:' + dbFile;
-
-// NextAuth
+process.env.DATABASE_URL = 'mysql://u432212399_adminrjcom:Royal%402026%40%23@localhost:3306/u432212399_rjcom';
 process.env.NEXTAUTH_SECRET = 'CVhmTyhLAckaJX/ZEBDV4Dt8VC3zB2GZsbxymybVoWw=';
 process.env.NEXTAUTH_URL = 'https://www.royaljubilant.com';
 process.env.NODE_ENV = 'production';
 process.env.PORT = process.env.PORT || '3000';
-
-// ═══════════════════════════════════════════════════════════
-// START SERVER — Use Next.js standalone (most reliable on Hostinger)
-// ═══════════════════════════════════════════════════════════
-
-const standaloneServer = path.join(__dirname, '.next', 'standalone', 'server.js');
-const nextCli = path.join(__dirname, 'node_modules', '.bin', 'next');
-
-if (fs.existsSync(standaloneServer)) {
-  // Standalone mode (preferred — no npx needed)
-  console.log('[app] Starting standalone server...');
-  
-  // Copy static files to standalone
-  const standaloneStatic = path.join(__dirname, '.next', 'standalone', '.next', 'static');
-  const staticDir = path.join(__dirname, '.next', 'static');
-  if (!fs.existsSync(standaloneStatic) && fs.existsSync(staticDir)) {
-    fs.mkdirSync(path.dirname(standaloneStatic), { recursive: true });
-    fs.cpSync(staticDir, standaloneStatic, { recursive: true });
-  }
-  
-  // Copy public folder
-  const standalonePublic = path.join(__dirname, '.next', 'standalone', 'public');
-  const publicDir = path.join(__dirname, 'public');
-  if (!fs.existsSync(standalonePublic) && fs.existsSync(publicDir)) {
-    fs.cpSync(publicDir, standalonePublic, { recursive: true });
-  }
-  
-  // Copy db folder
-  const standaloneDb = path.join(__dirname, '.next', 'standalone', 'db');
-  const dbDir = path.join(__dirname, 'db');
-  if (!fs.existsSync(standaloneDb) && fs.existsSync(dbDir)) {
-    fs.cpSync(dbDir, standaloneDb, { recursive: true });
-  }
-  
-  require(standaloneServer);
-} else if (fs.existsSync(nextCli)) {
-  // Fallback: next start using direct binary (no npx)
-  console.log('[app] Starting via next binary...');
-  const { spawn } = require('child_process');
-  const child = spawn('node', [nextCli, 'start', '-p', process.env.PORT], {
-    stdio: 'inherit',
-    env: process.env
-  });
-  child.on('error', (e) => {
-    console.error('[app] Failed to start:', e.message);
-    process.exit(1);
-  });
-} else {
-  console.error('[app] No server found. Neither standalone nor next binary exists.');
-  process.exit(1);
+console.log('[app] DB: MySQL');
+const { execSync } = require('child_process');
+try {
+  execSync('npx next start -p ' + process.env.PORT, { stdio: 'inherit', env: process.env });
+} catch (e) {
+  var s = path.join(__dirname, '.next', 'standalone', 'server.js');
+  if (fs.existsSync(s)) {
+    var st = path.join(__dirname, '.next', 'static');
+    var ss = path.join(__dirname, '.next', 'standalone', '.next', 'static');
+    if (!fs.existsSync(ss) && fs.existsSync(st)) { fs.mkdirSync(path.dirname(ss), { recursive: true }); fs.cpSync(st, ss, { recursive: true }); }
+    var p = path.join(__dirname, 'public');
+    var sp = path.join(__dirname, '.next', 'standalone', 'public');
+    if (!fs.existsSync(sp) && fs.existsSync(p)) { fs.cpSync(p, sp, { recursive: true }); }
+    require(s);
+  } else { process.exit(1); }
 }
