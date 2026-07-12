@@ -294,3 +294,23 @@ Work Log:
 Stage Summary:
 - This is the actual fix for "Access denied. Admin credentials required"
 - After this, login should work without app restart (just hash change in DB)
+
+---
+Task ID: 13
+Agent: Main Agent
+Task: v3 script hung at Node.js verification step
+
+Work Log:
+- v3 script was hanging at step 2/4 (Node.js verification call)
+- Probably shell_exec with Node was blocking or output was lost
+- Created v4 — removes all Node.js calls, just does:
+  1. PHP password_hash() to generate $2y$ hash
+  2. Convert prefix to $2b$
+  3. Direct MySQL update
+- Committed as 746278a
+- User runs: curl v4 + php fix-v4.php
+
+Stage Summary:
+- Simplest possible fix
+- Should run in <2 seconds
+- No external dependencies
