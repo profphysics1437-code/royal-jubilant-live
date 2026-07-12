@@ -163,3 +163,29 @@ Stage Summary:
   4. node scripts/recover-admin.js
   5. Try login at /admin/login
 - After successful login, all DB operations should work
+
+---
+Task ID: 8
+Agent: Main Agent
+Task: User tried SSH recovery — `git pull` failed (no .git folder), `node: command not found`
+
+Work Log:
+- Analyzed screenshot — user is on Hostinger SSH Web Terminal
+- Two problems:
+  1. Hostinger deployment doesn't include .git folder (deployed via ZIP, not git clone)
+  2. Node.js binary not in PATH for SSH shell (only for Passenger app server)
+- Created `scripts/recover-admin.php` — pure PHP alternative
+- PHP is always available on Hostinger, no PATH issues
+- PHP's password_hash() generates bcrypt hashes compatible with Node.js bcryptjs
+- Committed and pushed as 7bb79f8
+- User needs to either:
+  a) Wait for Hostinger auto-deploy (will pull new file from GitHub), OR
+  b) Manually create the file on Hostinger via File Manager
+
+Stage Summary:
+- Next steps for user:
+  1. Wait 2-3 min for Hostinger to auto-deploy (or trigger redeploy)
+  2. In SSH: cd domains/royaljubilant.com/public_html
+  3. Run: php scripts/recover-admin.php
+  4. Try login at /admin/login
+- If file doesn't exist on Hostinger, user can use File Manager to upload it
