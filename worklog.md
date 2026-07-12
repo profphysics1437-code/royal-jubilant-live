@@ -118,3 +118,22 @@ Stage Summary:
 - 7 testimonials in DB (6 displayed in 9:16 portrait grid)
 - Both deploy packages ready in /home/z/my-project/download/
 - Preview live and verified at https://preview-11a345f8.space-z.ai/
+
+---
+Task ID: 6
+Agent: Main Agent
+Task: Fix MySQL password - user reported correct password is `Admin@2026@#` (not `Royal@2026@#`)
+
+Work Log:
+- Searched all project files for old password `Royal%402026%40%23` (URL-encoded `Royal@2026@#`)
+- Found 3 occurrences: `.env`, `app-hostinger.js`, `scripts/auto-migrate-mysql.js`
+- Updated all 3 files with new password `Admin%402026%40%23` (URL-encoded `Admin@2026@#`)
+- Verified no other references to old password remain (excluding deploy-hostinger/ which uses SQLite)
+- Committed and pushed to GitHub as commit `8fa1f38` on `main` branch
+- Hostinger auto-deploy should now trigger with correct MySQL credentials
+
+Stage Summary:
+- New MySQL connection string: `mysql://u432212399_adminrjcom:Admin%402026%40%23@localhost:3306/u432212399_rjcom`
+- This was the root cause of: MySQL migration failures, admin login failures, all DB-dependent features
+- Hostinger will now: (1) pull latest code, (2) run `npm install` → triggers `postinstall` → runs `prisma generate` + `auto-migrate-mysql.js`, (3) migration script connects with correct password, (4) data migrates from SQLite to MySQL, (5) app starts with working DB
+- User should wait 3-5 minutes for Hostinger to rebuild, then test admin login at /admin
