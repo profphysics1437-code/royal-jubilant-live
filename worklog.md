@@ -370,3 +370,33 @@ Stage Summary:
 - But Story API still broken due to schema/code mismatch
 - User needs to clarify: was the updated Story schema ever committed to GitHub?
 - Or: should I rebuild Story schema based on what StoryView.tsx expects?
+
+---
+Task ID: 23
+Agent: Main Agent
+Task: Push changes to GitHub but NOT trigger Hostinger deploy
+
+Work Log:
+- User requested: push to GitHub but don't trigger Hostinger deployment
+- Solution: Created new branch 'dev' (Hostinger tracks 'main' only)
+- Pushed all local changes to origin/dev
+- origin/main UNCHANGED (still at f017889 — Hostinger safe)
+
+Changes pushed to dev branch:
+- prisma/schema.prisma — StoryEvent fields added (slug, developer, tags, featuredImage, featured)
+- src/app/api/public/story/route.ts — removed archived filter, use db import
+- src/components/site/Navbar.tsx — Commercial submenu in FALLBACK_NAV
+- src/components/site/views/MiscViews.tsx — AboutView redesigned (8 reasons + stats + comparison)
+- db/custom.db — Commercial menu added, Our Story view fixed to 'story'
+- worklog.md — updated
+
+Branch status:
+- origin/main: f017889 (Hostinger live — UNTOUCHED)
+- origin/dev: ee20d88 (latest local changes)
+- local main: f017889 (matches Hostinger)
+- local dev: ee20d88 (matches origin/dev)
+
+Stage Summary:
+- Changes are on GitHub (dev branch) — accessible but won't auto-deploy
+- Hostinger live website SAFE — still running f017889
+- User can review changes on dev branch before merging to main
