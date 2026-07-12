@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { db } from '@/lib/db';
 
 export async function GET() {
   try {
-    const events = await prisma.storyEvent.findMany({
-      where: { published: true, archived: false },
+    const events = await db.storyEvent.findMany({
+      where: { published: true },
       orderBy: [{ order: 'asc' }, { eventDate: 'desc' }],
     });
     return NextResponse.json({ events });

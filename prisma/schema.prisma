@@ -568,17 +568,22 @@ model Video {
 }
 
 model StoryEvent {
-  id          String   @id @default(cuid())
-  title       String
-  description String  
-  eventDate   DateTime
-  location    String?
-  category    String   @default("milestone")
-  images      String   @default("[]")
-  videoUrl    String?
-  highlighted Boolean  @default(false)
-  order       Int      @default(0)
-  published   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique @default(cuid())
+  description   String
+  eventDate     DateTime
+  location      String?
+  category      String   @default("milestone")
+  developer     String?
+  tags          String   @default("[]")
+  featuredImage String?
+  images        String   @default("[]")
+  videoUrl      String?
+  highlighted   Boolean  @default(false)
+  featured      Boolean  @default(false)
+  order         Int      @default(0)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
