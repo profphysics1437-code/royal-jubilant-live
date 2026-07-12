@@ -343,3 +343,30 @@ Stage Summary:
   2. Check hPanel → Advanced → Node.js → see if app is running
   3. Restart the app
   4. Check app runtime logs
+
+---
+Task ID: 22
+Agent: Main Agent
+Task: Pull latest from GitHub (per user request)
+
+Work Log:
+- git fetch origin
+- git reset --hard origin/main
+- Local now at f017889 (matches Hostinger + GitHub)
+- Verified schema: StoryEvent model is BASIC (no slug, developer, tags, featuredImage fields)
+- Verified DB:
+  - Story Events: 0
+  - Menu Items: 44
+- Restarted dev server
+
+Issue Found:
+- Story API fails with schema mismatch error
+- Code in route.ts queries `archived` field which doesn't exist in schema
+- StoryView.tsx component expects fields that don't exist in schema
+- Live Hostinger site may have updated schema that wasn't pushed to GitHub
+
+Stage Summary:
+- Local now in sync with GitHub (f017889)
+- But Story API still broken due to schema/code mismatch
+- User needs to clarify: was the updated Story schema ever committed to GitHub?
+- Or: should I rebuild Story schema based on what StoryView.tsx expects?
