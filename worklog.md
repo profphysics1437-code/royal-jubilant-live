@@ -218,3 +218,31 @@ Stage Summary:
 - SQLite file at db/custom.db has all data
 - Schema split: prisma/schema.prisma = SQLite (dev), prisma/schema.mysql.prisma = MySQL (Hostinger)
 - IMPORTANT: Hostinger deploy needs MySQL schema. Need to make postinstall/deploy script swap schemas OR keep MySQL in main schema and only swap locally.
+
+---
+Task ID: 10
+Agent: Main Agent
+Task: User successfully ran PHP recovery script on Hostinger
+
+Work Log:
+- User uploaded recover-admin.php via File Manager to public_html root
+- User logged into Hostinger SSH (port 65002, server fr-int-web1050)
+- Ran `cd domains/royaljubilant.com/public_html && php recover-admin.php`
+- Script output:
+  - [OK] Connected to MySQL
+  - [OK] Created User table (didn't exist before — this was the root cause)
+  - [OK] Generated bcrypt hash: $2y$10$8htHonJXWR2CK...
+  - [OK] Created admin user with ID: ce90d4c20e70cdb0619436390
+  - [OK] Admin user verified
+  - RECOVERY COMPLETE!
+- Admin user now exists in MySQL with:
+  - Email: admin@royaljubilant.ae
+  - Password: admin123
+  - Role: admin
+
+Stage Summary:
+- Admin user successfully created in Hostinger MySQL
+- User should now try logging in at https://www.royaljubilant.com/admin/login
+- IMPORTANT: Only the User table was created. Other tables (Property, Agent, etc.) still need to be created via Prisma db push
+- If login works but other pages are empty, need to run: npx prisma db push (requires node in PATH)
+- Alternative: Create a PHP script to push full schema
