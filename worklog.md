@@ -314,3 +314,32 @@ Stage Summary:
 - Simplest possible fix
 - Should run in <2 seconds
 - No external dependencies
+
+---
+Task ID: 14
+Agent: Main Agent
+Task: Login still fails after hash fix
+
+Work Log:
+- User reported login still doesn't work after fix-v4.php
+- Curled the site:
+  - https://www.royaljubilant.com/admin/login → 403
+  - https://www.royaljubilant.com/ → 403
+  - Server: hcdn (Hostinger CDN)
+  - Title: "Checking your browser before accessing. Just a moment..."
+- Diagnosis: Hostinger CDN/security layer is blocking requests
+  - This is Hostinger's bot protection / DDoS shield
+  - Real browsers should still work (just curl gets blocked)
+- But user says login doesn't work either
+- Could be:
+  1. App not actually running (port 3000 not responding)
+  2. App running but NextAuth can't reach MySQL
+  3. NextAuth secret mismatch
+  4. App still serving cached/old session
+
+Stage Summary:
+- Need user to:
+  1. Try login in INCOGNITO window (clears cached session)
+  2. Check hPanel → Advanced → Node.js → see if app is running
+  3. Restart the app
+  4. Check app runtime logs
