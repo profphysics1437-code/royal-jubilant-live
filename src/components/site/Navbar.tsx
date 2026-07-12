@@ -73,7 +73,10 @@ const FALLBACK_NAV = [
     label: "Commercial",
     view: "commercial",
     url: "",
-    children: [],
+    children: [
+      { label: "Commercial Property for Rent", desc: "Offices, retail & bulk leases", view: "commercial-rent", url: "" },
+      { label: "Commercial Property for Sale", desc: "Investment-grade commercial real estate", view: "commercial-sale", url: "" },
+    ],
   },
   {
     label: "Off Plan",
