@@ -271,3 +271,26 @@ Stage Summary:
 - Need to either:
   1. Trigger Hostinger rebuild from hPanel
   2. OR manually run build via SSH (if node is available)
+
+---
+Task ID: 12
+Agent: Main Agent
+Task: User extremely frustrated — found real root cause
+
+Work Log:
+- Diagnosed: PHP's password_hash() generates $2y$ prefix bcrypt hash
+- Node.js bcryptjs (used by NextAuth authorize) prefers $2b$ prefix
+- This is why PHP password_verify PASSES but Node.js bcrypt.compare FAILS
+- Created scripts/fix-hash.php — generates hash using bcryptjs directly
+- Script flow:
+  1. Install bcryptjs if missing
+  2. Generate $2b$ hash via Node + bcryptjs
+  3. Update MySQL User table with this hash
+- Committed and pushed as 0746463
+- User needs to run 2 commands:
+  curl -O https://raw.githubusercontent.com/profphysics1437-code/royal-jubilant-live/main/scripts/fix-hash.php
+  php fix-hash.php
+
+Stage Summary:
+- This is the actual fix for "Access denied. Admin credentials required"
+- After this, login should work without app restart (just hash change in DB)
