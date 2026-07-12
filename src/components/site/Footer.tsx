@@ -32,7 +32,7 @@ export function Footer() {
   const address = get("company.address", "13th Floor, Office #54, Burjuman Business Tower, Dubai, UAE");
   const hours = get("company.hours", "Mon – Sat, 9am – 6pm");
   const tagline = get("footer.tagline", "Dubai's premier luxury property advisory. Discreet, relationship-led counsel for the world's most discerning property owners.");
-  const facebook = get("social.facebook", "#");
+  const facebook = get("social.facebook", "https://www.facebook.com/profile.php?id=100077096168331");
 
   // Parse the 4 footer link columns from site settings (with hardcoded fallbacks)
   const parseCol = (key: string, fallbackTitle: string, fallbackLinks: { label: string; view: string }[]) => {
