@@ -58,7 +58,7 @@ loadEnvFile();
 // ═══════════════════════════════════════════════════════════
 
 if (!process.env.DATABASE_URL) {
-  process.env.DATABASE_URL = 'mysql://u432212399_adminrjcom:Royal%402026%40%23@localhost:3306/u432212399_rjcom';
+  process.env.DATABASE_URL = 'mysql://u432212399_adminrjcom:Admin%402026%40%23@localhost:3306/u432212399_rjcom';
   console.log('[migration] DATABASE_URL was not set, using hardcoded fallback');
 }
 

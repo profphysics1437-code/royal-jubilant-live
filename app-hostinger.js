@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-process.env.DATABASE_URL = 'mysql://u432212399_adminrjcom:Royal%402026%40%23@localhost:3306/u432212399_rjcom';
+process.env.DATABASE_URL = 'mysql://u432212399_adminrjcom:Admin%402026%40%23@localhost:3306/u432212399_rjcom';
 process.env.NEXTAUTH_SECRET = 'CVhmTyhLAckaJX/ZEBDV4Dt8VC3zB2GZsbxymybVoWw=';
 process.env.NEXTAUTH_URL = 'https://www.royaljubilant.com';
 process.env.NODE_ENV = 'production';
