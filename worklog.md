@@ -189,3 +189,32 @@ Stage Summary:
   3. Run: php scripts/recover-admin.php
   4. Try login at /admin/login
 - If file doesn't exist on Hostinger, user can use File Manager to upload it
+
+---
+Task ID: 9
+Agent: Main Agent
+Task: Fix local preview — user frustrated that local wasn't working
+
+Work Log:
+- Diagnosed: dev.log showed "Error code 14: Unable to open the database file"
+- Root cause: prisma/schema.prisma was switched to MySQL but local has no MySQL
+- Fix:
+  1. Backed up MySQL schema to prisma/schema.mysql.prisma
+  2. Restored prisma/schema.prisma to SQLite version (from prisma/schema.prisma.bak)
+  3. Updated .env to use SQLite: `DATABASE_URL=file:./db/custom.db`
+  4. Ran `npx prisma generate`
+  5. Killed old next-server, restarted dev with detached stdin
+- Verified:
+  - GET / → 200
+  - GET /admin/login → 200
+  - GET /api/public/site-settings → 200 with valid JSON
+  - POST /api/auth/callback/credentials → 200, returns redirect URL
+  - GET /api/auth/session → 200, shows admin user with role:admin
+- Admin login flow locally: WORKING
+
+Stage Summary:
+- Local preview URL: http://localhost:3000
+- Admin login: admin@royaljubilant.ae / admin123 → works
+- SQLite file at db/custom.db has all data
+- Schema split: prisma/schema.prisma = SQLite (dev), prisma/schema.mysql.prisma = MySQL (Hostinger)
+- IMPORTANT: Hostinger deploy needs MySQL schema. Need to make postinstall/deploy script swap schemas OR keep MySQL in main schema and only swap locally.
