@@ -275,6 +275,45 @@ export function AboutView() {
         </div>
       </div>
 
+      {/* MD Portrait + Message */}
+      <div className="container mx-auto px-4 lg:px-6 py-16 lg:py-20 max-w-5xl">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12 items-center">
+          <div className="md:col-span-2">
+            <div className="relative">
+              <div className="absolute -inset-3 bg-gradient-to-br from-[#C9A961]/20 to-transparent rounded-2xl" />
+              <img
+                src="/team/muhammad-javed-zafar.webp"
+                alt="Muhammad Javed Zafar — Managing Director"
+                className="relative w-full aspect-[3/4] object-cover rounded-2xl shadow-xl border border-[#C9A961]/30"
+                onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80'; }}
+              />
+              <div className="absolute -bottom-4 -right-4 bg-[#0A1F44] text-white px-4 py-2 rounded-lg shadow-lg">
+                <div className="text-[9px] uppercase tracking-wider text-[#C9A961]">Managing Director</div>
+                <div className="text-sm font-serif">M. Javed Zafar</div>
+              </div>
+            </div>
+          </div>
+          <div className="md:col-span-3">
+            <div className="text-[10px] tracking-luxury uppercase text-[#A68A3F] mb-3">A Message from our MD</div>
+            <h2 className="font-serif text-3xl lg:text-4xl text-[#0A1F44] mb-6 leading-tight">
+              "Real estate is not about properties.<br />It's about people."
+            </h2>
+            <p className="text-base text-muted-foreground leading-relaxed mb-4">
+              When I founded Royal Jubilant, I wanted to build something different — a brokerage where every client feels like our only client. In a market as dynamic as Dubai, that means combining deep local knowledge with genuine, personal care.
+            </p>
+            <p className="text-base text-muted-foreground leading-relaxed mb-6">
+              Our team of RERA-certified advisors doesn't just close transactions. We build relationships that span years and multiple moves — guiding first-time buyers, growing families, and seasoned investors with the same level of attention and integrity.
+            </p>
+            <div className="flex items-center gap-3 pt-4 border-t border-border/60">
+              <div>
+                <div className="font-serif text-lg text-[#0A1F44]">Muhammad Javed Zafar</div>
+                <div className="text-xs text-muted-foreground">Founder & Managing Director · Royal Jubilant Real Estate LLC</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 8 Reasons Grid */}
       <div className="container mx-auto px-4 lg:px-6 py-16 lg:py-20 max-w-6xl">
         <div className="text-center mb-12">
