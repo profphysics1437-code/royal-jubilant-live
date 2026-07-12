@@ -246,3 +246,28 @@ Stage Summary:
 - IMPORTANT: Only the User table was created. Other tables (Property, Agent, etc.) still need to be created via Prisma db push
 - If login works but other pages are empty, need to run: npx prisma db push (requires node in PATH)
 - Alternative: Create a PHP script to push full schema
+
+---
+Task ID: 11
+Agent: Main Agent
+Task: Diagnose Hostinger — found app not built
+
+Work Log:
+- User ran diagnose.php
+- Results:
+  - MySQL: ✅ connected
+  - Admin user: ✅ exists, password verified
+  - .env: ✅ correct (MySQL URL)
+  - Prisma schema: ✅ mysql provider
+  - .next build: ❌ MISSING
+  - node_modules: ❌ MISSING
+  - Other tables (Property, Agent, etc.): ❌ MISSING (only User table exists)
+- Build logs are in subdirectories under .builds/logs/
+- Latest build dir: 019f5554-51b1-7028-a6a5-f516ed9e1a54 (Jul 12 07:57)
+
+Stage Summary:
+- Root cause: Hostinger's deployment pipeline hasn't run npm install + next build
+- Source code is there (.builds/last-source/) but never compiled
+- Need to either:
+  1. Trigger Hostinger rebuild from hPanel
+  2. OR manually run build via SSH (if node is available)
