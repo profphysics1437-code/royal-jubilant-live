@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -71,11 +71,11 @@ model Property {
   noOfCheques      Int?
   serviceCharge    Float?
   priceNegotiable  Boolean  @default(false)
-  indoorFeatures   String? 
-  outdoorFeatures  String? 
-  buildingAmenities String?
-  nearbyLandmarks  String? 
-  viewFeatures     String? 
+  indoorFeatures   String? @db.Text 
+  outdoorFeatures  String? @db.Text 
+  buildingAmenities String? @db.Text
+  nearbyLandmarks  String? @db.Text 
+  viewFeatures     String? @db.Text 
   images      String  
   floorPlanUrl     String?
   videoUrl         String?
@@ -87,7 +87,7 @@ model Property {
   furnished        Boolean  @default(false)
   amenities    String  
   features     String  
-  paymentPlan      String? 
+  paymentPlan      String? @db.Text 
   handoverYear     Int?
   featured         Boolean  @default(false)
   isLatest         Boolean  @default(true)
@@ -130,13 +130,13 @@ model Lead {
   whatsapp    String?
   source      String
   intent      String?
-  message     String? 
+  message     String? @db.Text 
   budget      Float?
   propertyRef String?
   community   String?
   status      String   @default("new")
   assignedTo  String?
-  notes       String? 
+  notes       String? @db.Text 
   user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId      String?
   property    Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
@@ -158,7 +158,7 @@ model Appointment {
   scheduledAt DateTime
   type      String
   status    String   @default("scheduled")
-  notes     String? 
+  notes     String? @db.Text 
   createdAt DateTime @default(now())
 }
 
@@ -231,7 +231,7 @@ model ValuationRequest {
   condition    String?
   ownership    String?
   timeline     String?
-  message      String? 
+  message      String? @db.Text 
   status       String   @default("new")
   createdAt    DateTime @default(now())
 }
@@ -330,7 +330,7 @@ model BlogPost {
   readTime  String
   authorName String
   image     String
-  content   String? 
+  content   String? @db.Text 
   published Boolean  @default(true)
   authorId  String?
   author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
@@ -375,7 +375,7 @@ model AuditLog {
   action    String
   entity    String?
   entityId  String?
-  meta      String? 
+  meta      String? @db.Text 
   createdAt DateTime @default(now())
 }
 
@@ -428,7 +428,7 @@ model ActivityLog {
   action    String
   entity    String
   entityId  String?
-  details   String? 
+  details   String? @db.Text 
   ipAddress String?
   createdAt DateTime @default(now())
 }
@@ -469,14 +469,14 @@ model SeoMeta {
   id              String   @id @default(cuid())
   pageSlug        String   @unique
   metaTitle       String?
-  metaDescription String? 
+  metaDescription String? @db.Text 
   canonicalUrl    String?
   ogTitle         String?
-  ogDescription   String? 
+  ogDescription   String? @db.Text 
   ogImage         String?
   twitterCard     String?  @default("summary_large_image")
   keywords        String?
-  structuredData  String? 
+  structuredData  String? @db.Text 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -506,7 +506,7 @@ model EmailTemplate {
   subject     String
   body    String  
   category    String   @default("transactional")
-  variables   String? 
+  variables   String? @db.Text 
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -517,13 +517,13 @@ model LandingPage {
   title       String
   slug        String   @unique
   headline  String
-  subheadline String?
+  subheadline String? @db.Text
   body    String  
   heroImage   String?
   ctaText     String?
   ctaLink     String?
-  seoTitle    String?
-  seoDescription String?
+  seoTitle    String? @db.Text
+  seoDescription String? @db.Text
   status      String   @default("draft")
   publishedAt DateTime?
   createdAt   DateTime @default(now())
@@ -576,9 +576,9 @@ model StoryEvent {
   location        String?
   category        String   @default("milestone")
   developer       String?
-  tags            String   @default("[]") // JSON array
+  tags            String @db.Text   @default("[]") // JSON array
   featuredImage   String?
-  images          String   @default("[]") // JSON array of gallery images
+  images          String @db.Text   @default("[]") // JSON array of gallery images
   videoUrl        String?
   highlighted     Boolean  @default(false)
   featured        Boolean  @default(false)
@@ -586,8 +586,8 @@ model StoryEvent {
   order           Int      @default(0)
   published       Boolean  @default(true)
   // SEO
-  seoTitle        String?
-  seoDescription  String?
+  seoTitle        String? @db.Text
+  seoDescription  String? @db.Text
   ogImage         String?
   metaKeywords    String?
   createdAt       DateTime @default(now())
@@ -598,7 +598,7 @@ model StoryDeveloper {
   id              String   @id @default(cuid())
   name            String
   logo            String?
-  description     String?
+  description     String? @db.Text
   website         String?
   order           Int      @default(0)
   published       Boolean  @default(true)
