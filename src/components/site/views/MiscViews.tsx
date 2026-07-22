@@ -230,6 +230,22 @@ export function BlogView() {
 
 export function AboutView() {
   const { setActiveView } = useStore();
+  const reasons = [
+    { icon: ShieldCheck, title: "RERA-Certified Advisors", desc: "Every engagement is led by a senior, RERA-certified consultant — not a call centre or junior hand-off. Direct, accountable advice from a dedicated advisor who knows your goals." },
+    { icon: Award, title: "12+ Years in Dubai", desc: "Founded in 2014, Royal Jubilant has closed 1,200+ transactions across Palm Jumeirah, Downtown, Dubai Hills, Business Bay and beyond. Track record that speaks for itself." },
+    { icon: Building2, title: "Full-Spectrum Coverage", desc: "Residential, commercial, off-plan, industrial and bulk units — one firm, every Dubai property category. No need to juggle multiple brokers for different asset classes." },
+    { icon: TrendingUp, title: "Research-Led Advice", desc: "We publish quarterly market reports and back every recommendation with data — rental yields, price-per-sqft trends, handover timelines, and developer track records." },
+    { icon: Tag, title: "Transparent Pricing", desc: "No hidden fees, no surprise charges. Buyer-side costs, agent fees, DLD transfer — all disclosed upfront in writing before any commitment." },
+    { icon: Star, title: "Multilingual Team", desc: "English, Urdu, Arabic, Hindi, Pashto, Punjabi — served clients from across GCC, South Asia, Europe and Africa. Cultural fluency that matters in a global city." },
+    { icon: ShieldCheck, title: "End-to-End Support", desc: "From first viewing to title deed handover, NOC, mortgage facilitation, and post-purchase property management — we handle the entire lifecycle." },
+    { icon: Award, title: "Off-Plan Allocations", desc: "Authorised channel partner with Emaar, DAMAC, Sobha, Omniyat — first-call allocations 12-24 months ahead of public release, at pre-launch pricing." },
+  ];
+  const stats = [
+    { value: "1,200+", label: "Transactions Closed" },
+    { value: "240+", label: "Active Listings" },
+    { value: "12+", label: "Years in Dubai" },
+    { value: "9", label: "Languages Spoken" },
+  ];
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
       <div className="bg-royal-gradient-diagonal text-white py-16 lg:py-20">
@@ -237,14 +253,31 @@ export function AboutView() {
           <button onClick={() => setActiveView("home")} className="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-[#A68A3F] mb-5">
             <ArrowLeft className="size-3.5" /> Back to Home
           </button>
-          <div className="text-[10px] tracking-luxury uppercase text-[#A68A3F] mb-3">Our Story</div>
-          <h1 className="h1 text-white">A more personal<br />approach to Dubai real estate.</h1>
+          <div className="text-[10px] tracking-luxury uppercase text-[#A68A3F] mb-3">Why Choose Us</div>
+          <h1 className="h1 text-white">What sets Royal Jubilant<br />apart from the rest.</h1>
+          <p className="mt-6 text-base lg:text-lg text-white/85 max-w-2xl leading-relaxed font-light">
+            Dubai has thousands of brokerages. Here are eight concrete reasons discerning buyers, sellers and investors choose Royal Jubilant — and stay with us for life.
+          </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 lg:px-6 py-16 max-w-5xl">
-        {/* MD Portrait Section */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12 mb-16 items-center">
+      {/* Stats Strip */}
+      <div className="bg-[#0A1F44] text-white py-10">
+        <div className="container mx-auto px-4 lg:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <div className="font-serif text-3xl lg:text-4xl text-[#C9A961]">{s.value}</div>
+                <div className="text-xs uppercase tracking-wider text-white/60 mt-1">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* MD Portrait + Message */}
+      <div className="container mx-auto px-4 lg:px-6 py-16 lg:py-20 max-w-5xl">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12 items-center">
           <div className="md:col-span-2">
             <div className="relative">
               <div className="absolute -inset-3 bg-gradient-to-br from-[#C9A961]/20 to-transparent rounded-2xl" />
@@ -279,62 +312,93 @@ export function AboutView() {
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="prose prose-lg max-w-none">
-          <p className="text-xl text-muted-foreground leading-relaxed mb-8 font-serif italic">
-            Royal Jubilant Real Estate LLC was founded in Dubai with a simple conviction: that property buyers, sellers and tenants deserve a more personal, more research-led and more relationship-driven advisory than the volume-driven model that dominates Dubai real estate.
-          </p>
-          <p className="text-base text-muted-foreground leading-relaxed mb-6">
-            Based at Burjuman Business Tower in the heart of Dubai, our team of RERA-certified property consultants serves clients across the full spectrum of Dubai real estate — residential sales and leasing, commercial offices and retail, off-plan allocations, industrial property and bulk residential units. We work in English, Urdu, Arabic, Hindi, Pashto and Punjabi, and have advised clients from across the GCC, South Asia, Europe and Africa.
-          </p>
-          <p className="text-base text-muted-foreground leading-relaxed mb-12">
-            What sets us apart is depth of local knowledge and an unwavering focus on the client relationship. From first-time buyers exploring studio apartments in JVC to corporates leasing Grade-A office floors in Business Bay, every engagement begins with a conversation about your goals — and ends with a property that genuinely matches them.
-          </p>
+      {/* 8 Reasons Grid */}
+      <div className="container mx-auto px-4 lg:px-6 py-16 lg:py-20 max-w-6xl">
+        <div className="text-center mb-12">
+          <div className="text-[10px] tracking-luxury uppercase text-[#A68A3F] mb-3">The Royal Jubilant Difference</div>
+          <h2 className="font-serif text-3xl lg:text-4xl text-[#0A1F44]">Eight reasons clients stay with us</h2>
         </div>
-
-        {/* Values */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-          {[
-            { title: "Personal Service", desc: "Every client engagement is led by a senior, RERA-certified consultant. No call centres, no junior hand-offs — direct, accountable advice from your advisor." },
-            { title: "Full-Spectrum Coverage", desc: "Residential, commercial, off-plan, industrial and bulk units — one firm, every Dubai property category, with deep expertise in each." },
-            { title: "Relationship First", desc: "We work with clients across multiple transactions and multiple years. Trust is earned one deal at a time — and maintained for life." },
-          ].map((v) => (
-            <div key={v.title} className="bg-white rounded-2xl p-6 border border-border/60">
-              <h3 className="font-serif text-xl font-medium text-[#0A1F44] mb-2">{v.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {reasons.map((r, i) => {
+            const Icon = r.icon;
+            return (
+              <motion.div
+                key={r.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="bg-white rounded-2xl p-7 lg:p-8 border border-border/60 hover:border-[#C9A961]/40 hover:shadow-lg transition-all"
+              >
+                <div className="flex items-start gap-5">
+                  <div className="flex-shrink-0 size-14 rounded-xl bg-[#0A1F44] flex items-center justify-center">
+                    <Icon className="size-7 text-[#C9A961]" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-luxury text-[#A68A3F] mb-1">Reason {String(i + 1).padStart(2, '0')}</div>
+                    <h3 className="font-serif text-xl lg:text-2xl text-[#0A1F44] mb-3">{r.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{r.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
+      </div>
 
-        {/* Office info */}
-        <div className="mt-16 bg-white rounded-3xl p-8 lg:p-10 border border-border/60">
-          <h2 className="font-serif text-2xl font-medium text-[#0A1F44] mb-6">Our Office</h2>
+      {/* Comparison Band */}
+      <div className="bg-white border-y border-border/60">
+        <div className="container mx-auto px-4 lg:px-6 py-16 max-w-5xl">
+          <div className="text-center mb-10">
+            <div className="text-[10px] tracking-luxury uppercase text-[#A68A3F] mb-3">The Difference</div>
+            <h2 className="font-serif text-3xl lg:text-4xl text-[#0A1F44]">Royal Jubilant vs typical brokerages</h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-medium text-[#0A1F44] mb-2">Dubai (Head Office)</h3>
-              <p className="text-sm text-muted-foreground mb-2">13th Floor, Office #54<br />Burjuman Business Tower<br />Dubai, United Arab Emirates</p>
-              <p className="text-sm text-[#A68A3F] font-medium mb-1">+971 4 327 8401</p>
-              <p className="text-sm text-[#A68A3F] font-medium">info@royaljubilant.ae</p>
+            <div className="bg-red-50/50 border border-red-200/60 rounded-2xl p-7">
+              <h3 className="font-serif text-lg text-[#0A1F44] mb-4 flex items-center gap-2">
+                <span className="size-2 rounded-full bg-red-400" /> Typical Dubai Brokerage
+              </h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>• Junior agents handling senior clients</li>
+                <li>• Volume-driven, transaction-focused</li>
+                <li>• Limited to one property category</li>
+                <li>• No post-purchase support</li>
+                <li>• Hidden fees and surprise charges</li>
+                <li>• English-only communication</li>
+              </ul>
             </div>
-            <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-muted">
-              <iframe
-                title="Royal Jubilant Office Location"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=55.2950,25.2510,55.3050,25.2560&layer=mapnik&marker=25.2535,55.3000"
-                className="w-full h-full"
-                loading="lazy"
-              />
+            <div className="bg-[#0A1F44] text-white rounded-2xl p-7">
+              <h3 className="font-serif text-lg mb-4 flex items-center gap-2">
+                <span className="size-2 rounded-full bg-[#C9A961]" /> Royal Jubilant
+              </h3>
+              <ul className="space-y-3 text-sm text-white/80">
+                <li>• Senior RERA-certified advisors only</li>
+                <li>• Relationship-driven, multi-year clients</li>
+                <li>• Residential, commercial, off-plan, industrial</li>
+                <li>• End-to-end lifecycle support</li>
+                <li>• Transparent, written fee disclosure</li>
+                <li>• 9 languages, global cultural fluency</li>
+              </ul>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="text-center mt-12">
-          <button
-            onClick={() => setActiveView("contact")}
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[#0A1F44] hover:bg-[#0A1F44]/90 text-white font-medium text-sm transition-colors"
-          >
-            Get in Touch
-          </button>
-        </div>
+      {/* CTA */}
+      <div className="container mx-auto px-4 lg:px-6 py-16 text-center max-w-3xl">
+        <h2 className="font-serif text-3xl lg:text-4xl text-[#0A1F44] mb-4">Experience the difference.</h2>
+        <p className="text-base text-muted-foreground mb-8">
+          Book a no-obligation consultation with a senior advisor. We'll discuss your goals, walk you through current market opportunities, and only recommend properties that genuinely fit your brief.
+        </p>
+        <button
+          onClick={() => setActiveView("contact")}
+          className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[#0A1F44] hover:bg-[#0A1F44]/90 text-white font-medium text-sm transition-colors"
+        >
+          Get in Touch
+          <ArrowRight className="size-4" />
+        </button>
       </div>
     </div>
   );
@@ -454,8 +518,18 @@ function ContactForm() {
 
 export function FAQsView() {
   const { setActiveView } = useStore();
-  const { data } = useApi<{ faqs: any[] }>("/api/public/faqs", { faqs: [] });
-  const faqs = (data?.faqs || []).map((f) => ({ q: f.question, a: f.answer, category: f.category }));
+  const fallbackFaqs = [
+    { question: "What is RERA and why is it important?", answer: "RERA (Real Estate Regulatory Agency) is the regulatory arm of the Dubai Land Department (DLD). It regulates and licenses real estate brokers, agents, and developers in Dubai. Always work with a RERA-certified broker like Royal Jubilant to ensure your transaction is legally protected.", category: "general" },
+    { question: "Can foreigners buy property in Dubai?", answer: "Yes, foreigners can buy property in Dubai's designated freehold areas. These include Dubai Marina, Downtown Dubai, Palm Jumeirah, Dubai Hills Estate, Business Bay, and JVC. You get full ownership rights in these areas.", category: "buying" },
+    { question: "What is the process of buying a property in Dubai?", answer: "The process involves: 1) Selecting a property, 2) Signing a Memorandum of Understanding (MOU) and paying a deposit, 3) Obtaining a No Objection Certificate (NOC) from the developer, 4) Transferring ownership at the DLD. Royal Jubilant handles this entire process for you.", category: "buying" },
+    { question: "What are the costs associated with buying property in Dubai?", answer: "Additional costs include: DLD transfer fee (4% of property value), agent fee (2% + VAT), NOC fee (AED 500-5,000), and trustee office fee. Budget approximately 7% above the purchase price for all fees.", category: "buying" },
+    { question: "What is Ejari?", answer: "Ejari is the online registration system by RERA that regulates all rental contracts in Dubai. Every rental agreement must be registered with Ejari. It protects both landlords and tenants and is required for utilities connection, visa applications, and other services.", category: "renting" },
+    { question: "What is a payment plan for off-plan properties?", answer: "A payment plan is a schedule of payments spread over the construction period. Instead of paying the full price upfront, you pay in installments (e.g., 20% on booking, 10% every 6 months, 40% on handover). Royal Jubilant secures the best payment plans from developers.", category: "off-plan" },
+    { question: "What is the difference between freehold and leasehold?", answer: "Freehold means you own the property and the land it's on permanently. Leasehold means you lease the property for a fixed period (usually 99 years). In Dubai, most properties available to foreigners are freehold in designated areas.", category: "general" },
+    { question: "How long does the property buying process take?", answer: "For ready properties, the process typically takes 30-60 days from signing the MOU to receiving the title deed. For off-plan properties, you sign the SPA immediately and pay according to the payment plan until handover.", category: "buying" },
+  ];
+  const { data } = useApi<{ faqs: any[] }>("/api/public/faqs", { faqs: fallbackFaqs });
+  const faqs = (data?.faqs && data.faqs.length > 0 ? data.faqs : fallbackFaqs).map((f) => ({ q: f.question, a: f.answer, category: f.category }));
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">

@@ -1,4 +1,7 @@
-'use client';
+"use client";
+
+export const dynamic = "force-dynamic";
+
 import { useState, useEffect } from 'react';
 import { Save, Bot, Volume2, Eye, Clock, MessageSquare, Sparkles } from 'lucide-react';
 

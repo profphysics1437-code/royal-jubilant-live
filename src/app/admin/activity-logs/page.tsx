@@ -1,4 +1,7 @@
 "use client";
+
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { Loader2, Clock, User, FileText } from "lucide-react";
 import { AdminPageHeader, AdminTable, EmptyRow } from "@/components/admin/AdminUI";

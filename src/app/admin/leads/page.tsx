@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { Trash2, Loader2, Phone, Mail, MessageCircle, Tag, Calendar as CalIcon } from "lucide-react";
 import { AdminPageHeader, AdminTable, EmptyRow, StatusBadge, AdminCard } from "@/components/admin/AdminUI";

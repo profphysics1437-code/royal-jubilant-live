@@ -96,7 +96,7 @@ export function Hero() {
                 <div className="relative">
                   <button
                     onClick={() => setPurpose(purpose === "rent" ? "buy" : "rent")}
-                    className="w-full md:w-auto flex items-center justify-between gap-3 px-5 py-4 bg-[#0A2A5A] text-white text-sm font-bold rounded-lg uppercase tracking-wide hover:bg-[#0A1F44] transition-colors min-w-[120px]"
+                    className="w-full md:w-auto flex items-center justify-between gap-3 px-5 py-4 bg-[#0A1F44] text-white text-sm font-bold rounded-lg uppercase tracking-wide hover:bg-[#0A1F44]/90 transition-colors min-w-[120px]"
                   >
                     {purpose}
                     <ChevronDown className="size-4" />
@@ -139,7 +139,7 @@ export function Hero() {
                 {/* Section 4: SEARCH button (gold) */}
                 <button
                   onClick={handleSearch}
-                  className="flex items-center justify-center gap-2 px-8 py-4 bg-[#D4AF37] hover:bg-[#C9A961] text-white text-sm font-bold rounded-lg uppercase tracking-wide transition-colors min-w-[140px]"
+                  className="flex items-center justify-center gap-2 px-8 py-4 bg-[#C9A961] hover:bg-[#A68A3F] text-white text-sm font-bold rounded-lg uppercase tracking-wide transition-colors min-w-[140px]"
                 >
                   <Search className="size-4" />
                   Search
@@ -152,21 +152,21 @@ export function Hero() {
                   {/* RESIDENTIAL — gold background */}
                   <button
                     onClick={() => setActiveView("buy")}
-                    className="px-5 py-2 bg-[#D4AF37] text-white text-xs font-bold rounded-lg uppercase tracking-wide hover:bg-[#C9A961] transition-colors"
+                    className="px-5 py-2 bg-[#C9A961] text-white text-xs font-bold rounded-lg uppercase tracking-wide hover:bg-[#A68A3F] transition-colors"
                   >
                     Residential
                   </button>
                   {/* COMMERCIAL — white background, navy text */}
                   <button
                     onClick={() => setActiveView("commercial")}
-                    className="px-5 py-2 bg-white text-[#0A2A5A] text-xs font-bold rounded-lg uppercase tracking-wide hover:bg-gray-100 transition-colors"
+                    className="px-5 py-2 bg-white text-[#0A1F44] text-xs font-bold rounded-lg uppercase tracking-wide hover:bg-gray-100 transition-colors"
                   >
                     Commercial
                   </button>
                   {/* OFF PLAN — white background, navy text */}
                   <button
                     onClick={() => setActiveView("off-plan")}
-                    className="px-5 py-2 bg-white text-[#0A2A5A] text-xs font-bold rounded-lg uppercase tracking-wide hover:bg-gray-100 transition-colors"
+                    className="px-5 py-2 bg-white text-[#0A1F44] text-xs font-bold rounded-lg uppercase tracking-wide hover:bg-gray-100 transition-colors"
                   >
                     Off Plan
                   </button>
@@ -174,7 +174,7 @@ export function Hero() {
                 {/* ADVANCED SEARCH — text link with icon, right-aligned */}
                 <button
                   onClick={() => setAdvancedOpen(!advancedOpen)}
-                  className="flex items-center gap-1.5 px-3 py-2 text-[#0A2A5A] text-xs font-bold uppercase tracking-wide hover:text-[#D4AF37] transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 text-white text-xs font-bold uppercase tracking-wide hover:text-[#C9A961] transition-colors"
                 >
                   <SlidersHorizontal className="size-3.5" />
                   Advanced Search
@@ -235,7 +235,7 @@ export function Hero() {
                         </div>
                       </div>
                       <div className="flex justify-end mt-3">
-                        <button onClick={() => { setAdvancedOpen(false); handleSearch(); }} className="px-4 py-2 bg-[#0A2A5A] text-white text-xs font-semibold rounded-lg hover:bg-[#0A1F44] transition-colors">
+                        <button onClick={() => { setAdvancedOpen(false); handleSearch(); }} className="px-4 py-2 bg-[#0A1F44] text-white text-xs font-semibold rounded-lg hover:bg-[#0A1F44]/90 transition-colors">
                           Apply & Search
                         </button>
                       </div>

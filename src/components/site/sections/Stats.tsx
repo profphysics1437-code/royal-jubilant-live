@@ -170,7 +170,7 @@ export function Testimonials() {
           icon={<Quote className="size-4" />}
         />
 
-        {/* 9:16 portrait cards — 6 per row on desktop */}
+        {/* Portrait cards — 6 per row on desktop, auto height so content never cuts */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4 mt-12">
           {testimonials.slice(0, 6).map((t, i) => (
             <motion.div
@@ -179,10 +179,10 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="flex flex-col bg-white rounded-xl overflow-hidden border border-border/60 shadow-sm hover:shadow-xl transition-shadow"
-              style={{ aspectRatio: '9 / 16' }}
+              className="flex flex-col bg-white rounded-xl overflow-hidden border border-border/60 shadow-sm hover:shadow-xl transition-shadow h-full"
             >
-              <div className="bg-[#0A1F44] text-white p-3 flex flex-col items-center text-center">
+              {/* Navy header — avatar + name + rating */}
+              <div className="bg-[#0A1F44] text-white p-3 flex flex-col items-center text-center flex-shrink-0">
                 <img src={t.avatar} alt={t.name} className="size-12 rounded-full object-cover border-2 border-[#C9A961]/50 mb-2" />
                 <div className="text-[13px] font-semibold leading-tight">{t.name}</div>
                 <div className="text-[10px] text-[#C9A961] mt-0.5 uppercase tracking-wider">{t.role}</div>
@@ -192,9 +192,10 @@ export function Testimonials() {
                   ))}
                 </div>
               </div>
-              <div className="flex-1 p-3 flex flex-col justify-between bg-white">
+              {/* White body — quote + location, no flex-1 so it grows naturally */}
+              <div className="p-3 bg-white">
                 <Quote className="size-5 text-[#A68A3F]/20 mb-1" />
-                <p className="text-[13px] text-[#0A1F44] leading-snug font-serif italic flex-1">"{t.quote}"</p>
+                <p className="text-[12px] text-[#0A1F44] leading-snug font-serif italic">"{t.quote}"</p>
                 <div className="text-[10px] text-muted-foreground mt-2 pt-2 border-t border-border/40">{t.location} · {t.service}</div>
               </div>
             </motion.div>

@@ -39,16 +39,16 @@ const services = [
     countKey: "offPlan" as const,
   },
   {
-    title: "Rooms for Rent",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80",
-    view: "rent-rooms",
-    countKey: "rentRooms" as const,
+    title: "The Luxury Collection",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=600&q=80",
+    view: "luxury",
+    countKey: "luxury" as const,
   },
   {
-    title: "Holiday Homes",
-    image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80",
-    view: "rent-holiday",
-    countKey: "rent" as const,
+    title: "Office for Rent",
+    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80",
+    view: "commercial-rent",
+    countKey: "commercial" as const,
   },
 ];
 

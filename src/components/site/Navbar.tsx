@@ -49,11 +49,12 @@ const FALLBACK_NAV = [
     view: null,
     url: "",
     children: [
-      { label: "Residential", desc: "Annual long-term rentals", view: "rent", url: "" },
-      { label: "Rooms for Rent", desc: "Shared rooms & bed spaces", view: "rent-rooms", url: "" },
-      { label: "Holiday Homes", desc: "Furnished vacation rentals", view: "rent-holiday", url: "" },
-      { label: "Monthly Short Term", desc: "1-3 month stays", view: "rent-monthly", url: "" },
-      { label: "Daily Short Term", desc: "Daily & weekly stays", view: "rent-daily", url: "" },
+      { label: "All Properties for Rent", desc: "Browse 800+ active rentals", view: "rent", url: "" },
+      { label: "Villas for Rent", desc: "5+ bedrooms across prime communities", view: "rent", url: "" },
+      { label: "Penthouses for Rent", desc: "Top-floor branded residences", view: "rent", url: "" },
+      { label: "Apartments for Rent", desc: "Studios to 4-bedrooms", view: "rent", url: "" },
+      { label: "Townhouses for Rent", desc: "Family-friendly gated communities", view: "rent", url: "" },
+      { label: "Luxury Rentals", desc: "Curated trophy assets AED 200K+/yr", view: "rent", url: "", badge: "Premium" },
     ],
   },
   {
@@ -73,7 +74,10 @@ const FALLBACK_NAV = [
     label: "Commercial",
     view: "commercial",
     url: "",
-    children: [],
+    children: [
+      { label: "Commercial Property for Rent", desc: "Offices, retail & bulk leases", view: "commercial-rent", url: "" },
+      { label: "Commercial Property for Sale", desc: "Investment-grade commercial real estate", view: "commercial-sale", url: "" },
+    ],
   },
   {
     label: "Off Plan",

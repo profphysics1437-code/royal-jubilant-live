@@ -32,7 +32,7 @@ export function Footer() {
   const address = get("company.address", "13th Floor, Office #54, Burjuman Business Tower, Dubai, UAE");
   const hours = get("company.hours", "Mon – Sat, 9am – 6pm");
   const tagline = get("footer.tagline", "Dubai's premier luxury property advisory. Discreet, relationship-led counsel for the world's most discerning property owners.");
-  const facebook = get("social.facebook", "#");
+  const facebook = get("social.facebook", "https://www.facebook.com/profile.php?id=100077096168331");
 
   // Parse the 4 footer link columns from site settings (with hardcoded fallbacks)
   const parseCol = (key: string, fallbackTitle: string, fallbackLinks: { label: string; view: string }[]) => {
@@ -78,11 +78,11 @@ export function Footer() {
     { label: "FAQs", view: "faqs" },
     { label: "Contact Us", view: "contact" },
   ]);
-  const instagram = get("social.instagram", "#");
+  const instagram = get("social.instagram", "https://www.instagram.com/royal_jubilant?igsh=ZGFnd3IzejljM3Fs");
   const linkedin = get("social.linkedin", "#");
   const twitter = get("social.twitter", "#");
   const tiktok = get("social.tiktok", "#");
-  const youtube = get("social.youtube", "#");
+  const youtube = get("social.youtube", "https://youtube.com/@royaljubilant");
   const copyright = get("footer.copyright", "© 2026 Royal Jubilant Real Estate LLC. All rights reserved.");
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
@@ -276,12 +276,29 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex flex-col items-center gap-1">
-              <div className="bg-white p-1.5 rounded-lg">
-                <img src="/dld-qr.png" alt="DLD QR Code" className="w-16 h-16 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            {/* DLD QR Code — Premium styled frame */}
+            <a
+              href="https://dubailand.gov.ae/r/S5Oh64Ihyb"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 group"
+              title="Scan to verify our RERA License on Dubai Land Department"
+            >
+              <div className="relative">
+                <div className="bg-white p-2 rounded-xl border-2 border-[#C9A961]/50 shadow-lg group-hover:border-[#C9A961] transition-colors">
+                  <img src="/dld-qr.png" alt="DLD QR Code" className="w-20 h-20 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                </div>
+                <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-[#C9A961] rounded-tl" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-[#C9A961] rounded-tr" />
+                <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-[#C9A961] rounded-bl" />
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-[#C9A961] rounded-br" />
               </div>
-              <span className="text-[9px] text-white/50 uppercase tracking-wider">Scan DLD</span>
-            </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] text-[#C9A961] uppercase tracking-luxury font-semibold">RERA Licensed</span>
+                <span className="text-sm text-white font-serif font-medium">License #28839</span>
+                <span className="text-[10px] text-white/50 uppercase tracking-wider mt-0.5">Scan to Verify ↗</span>
+              </div>
+            </a>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-2 text-xs tracking-luxury uppercase text-white/60 hover:text-[#C9A961] transition-colors"
