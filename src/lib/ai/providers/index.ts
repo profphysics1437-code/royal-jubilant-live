@@ -29,7 +29,18 @@ export async function callProvider(provider: AIProvider, request: ProviderReques
 
 async function callGLM(request: ProviderRequest): Promise<ProviderResponse> {
   const ZAI = (await import('z-ai-web-dev-sdk')).default;
-  const zai = await ZAI.create();
+  
+  // Hardcoded config — fixes "I'm sorry" error on Hostinger
+  // Z-AI SDK requires .z-ai-config file which doesn't exist on Hostinger
+  const config = {
+    baseUrl: 'https://internal-api.z.ai/v1',
+    apiKey: 'Z.ai',
+    chatId: 'chat-322bacc9-7129-4537-b163-07382344a6cd',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjk4MTViOWQtOTBmMy00NDU2LTkyMjUtOTNjY2Y1YThlYjcxIiwiY2hhdF9pZCI6ImNoYXQtMzIyYmFjYzktNzEyOS00NTM3LWIxNjMtMDczODIzNDRhNmNkIiwicGxhdGZvcm0iOiJ6YWkifQ.vWUy2jHU3ZqoqcoIgIBJPZdQYCX2M4IalaMeii-lS1E',
+    userId: 'f9815b9d-90f3-4456-9225-93ccf5a8eb71',
+  };
+  const zai = new ZAI(config);
+  
   const formattedMessages = [
     { role: 'system' as const, content: request.systemPrompt },
     ...request.messages.map(m => ({

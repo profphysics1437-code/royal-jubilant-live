@@ -9,17 +9,17 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: false,
-  // Disable Turbopack — use webpack instead.
-  // Turbopack crashes on shared hosting (Hostinger) due to thread pool limits.
-  // Webpack is single-threaded for the most part and runs reliably on shared hosting.
-  // Also sets UV_THREADPOOL_SIZE=4 to limit libuv threads (prevents "Resource
-  // temporarily unavailable" panics from rayon-core during build).
   experimental: {
     turbopack: false,
   },
-  // Force webpack for build
   webpack: (config, { isServer }) => {
     return config;
+  },
+  // Increase body size limit for file uploads (default is 1MB, we need 50MB for photos)
+  api: {
+    bodyParser: {
+      sizeLimit: '50mb',
+    },
   },
 };
 

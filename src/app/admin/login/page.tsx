@@ -140,11 +140,6 @@ function AdminLoginInner() {
             >
               {loading ? "Signing in..." : (<>Sign In to Admin <ArrowRight className="size-4 ml-2" /></>)}
             </Button>
-
-            <div className="text-center pt-2 border-t border-border/60">
-              <p className="text-xs text-muted-foreground mb-1">Demo credentials (pre-seeded):</p>
-              <p className="text-xs font-mono text-[#0A1F44]">admin@royaljubilant.ae / admin123</p>
-            </div>
           </form>
         </div>
 
