@@ -6,15 +6,19 @@ import { requireAdmin } from "@/lib/admin-guard";
 import { randomUUID } from "crypto";
 import { createClient } from "@supabase/supabase-js";
 
-// Initialize Supabase Client using Hostinger injected env vars
-const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_API_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+// Helper: Get Supabase client at request time (not module load time)
+function getSupabase() {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_API_KEY;
+  if (!supabaseUrl || !supabaseKey) return null;
+  return createClient(supabaseUrl, supabaseKey);
+}
 
 export async function POST(req: NextRequest) {
   const u = await requireAdmin();
   if (u) return u;
 
+  const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json(
       { error: "Supabase not configured. Check SUPABASE_URL and SUPABASE_API_KEY environment variables." },
@@ -51,7 +55,6 @@ export async function POST(req: NextRequest) {
 
       if (error) {
         console.error('[Upload] Supabase error:', error);
-        // Skip this file but continue with others
         continue;
       }
 
@@ -81,6 +84,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Failed to upload files" }, { status: 500 });
   }
 
-  // Frontend expects { files: [{ url: "..." }] }
   return NextResponse.json({ files: uploadedFiles });
 }

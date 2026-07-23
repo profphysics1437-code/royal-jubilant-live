@@ -6,10 +6,13 @@ import { requireAdmin } from "@/lib/admin-guard";
 import { randomUUID } from "crypto";
 import { createClient } from "@supabase/supabase-js";
 
-// Initialize Supabase Client using Hostinger injected env vars
-const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_API_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+// Helper: Get Supabase client at request time (not module load time)
+function getSupabase() {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_API_KEY;
+  if (!supabaseUrl || !supabaseKey) return null;
+  return createClient(supabaseUrl, supabaseKey);
+}
 
 export async function GET(req: NextRequest) {
   const u = await requireAdmin();
@@ -28,6 +31,7 @@ export async function POST(req: NextRequest) {
   const u = await requireAdmin();
   if (u) return u;
 
+  const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json(
       { error: "Supabase not configured. Check SUPABASE_URL and SUPABASE_API_KEY environment variables." },
@@ -42,7 +46,6 @@ export async function POST(req: NextRequest) {
 
   if (!file) return NextResponse.json({ error: "No file provided" }, { status: 400 });
 
-  // Determine file type
   const ext = file.name.split(".").pop()?.toLowerCase() || "";
   let type = "image";
   if (["mp4", "webm", "mov", "avi"].includes(ext)) type = "video";
@@ -50,12 +53,10 @@ export async function POST(req: NextRequest) {
   else if (["svg"].includes(ext)) type = "svg";
   else if (["png", "jpg", "jpeg", "gif", "webp"].includes(ext)) type = "image";
 
-  // Generate unique filename and Supabase Storage path
   const uniqueName = `${randomUUID()}.${ext}`;
   const storagePath = `${folder}/${uniqueName}`;
 
   try {
-    // Upload to Supabase Storage
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     
@@ -72,14 +73,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Storage error: ${error.message}` }, { status: 500 });
     }
 
-    // Get public URL
     const { data: publicUrlData } = supabase.storage
       .from('media')
       .getPublicUrl(storagePath);
 
     const url = publicUrlData.publicUrl;
 
-    // Save file metadata to database
     const mediaFile = await db.mediaFile.create({
       data: {
         filename: file.name,
