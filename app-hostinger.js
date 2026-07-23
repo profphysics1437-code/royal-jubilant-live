@@ -1,15 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-// SQLite-only — no external DB, no Supabase, no MySQL
-process.env.DATABASE_URL = 'file:' + path.join(__dirname, 'db', 'custom.db');
-process.env.NEXTAUTH_SECRET = 'CVhmTyhLAckaJX/ZEBDV4Dt8VC3zB2GZsbxymybVoWw=';
-process.env.NEXTAUTH_URL = 'https://www.royaljubilant.com';
-process.env.NODE_ENV = 'production';
-process.env.PORT = '3000';
-process.env.UV_THREADPOOL_SIZE = '4';
+// Supabase PostgreSQL — connected via Hostinger integration
+// Hostinger automatically sets SUPABASE_URL and SUPABASE_API_KEY
+// We also set DATABASE_URL for Prisma ORM
+process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:eyZtxI8QDnitGLNa@db.vxmxxoymiwpoaekgmigb.supabase.co:5432/postgres';
+process.env.NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || 'CVhmTyhLAckaJX/ZEBDV4Dt8VC3zB2GZsbxymybVoWw=';
+process.env.NEXTAUTH_URL = process.env.NEXTAUTH_URL || 'https://www.royaljubilant.com';
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+process.env.PORT = process.env.PORT || '3000';
+process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '4';
 
-console.log('[app] DB: SQLite at', process.env.DATABASE_URL);
+console.log('[app] DB: Supabase PostgreSQL');
 console.log('[app] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
 console.log('[app] NODE_ENV:', process.env.NODE_ENV);
 
