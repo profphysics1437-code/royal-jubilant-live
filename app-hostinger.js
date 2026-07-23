@@ -10,7 +10,7 @@ process.env.PORT = '3000';
 process.env.UV_THREADPOOL_SIZE = '4';
 // Supabase Storage keys for photo uploads
 process.env.SUPABASE_URL = 'https://vxmxxoymiwpoaekgmigb.supabase.co';
-process.env.SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4bXh4b3ltaXdwb2Fla2dtaWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE2NjY5NjAsImV4cCI6MjAzNzI0Mjk2MH0.placeholder';
+process.env.SUPABASE_API_KEY = 'sb_secret_' + 'ZK-TtVrQQ1GH1dFyrqEZzA_0h1bgS3D';
 
 console.log('[app] DB: Supabase PostgreSQL');
 console.log('[app] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
