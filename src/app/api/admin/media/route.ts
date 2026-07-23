@@ -3,10 +3,13 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
-import { writeFile, mkdir } from "fs/promises";
-import { existsSync } from "fs";
-import path from "path";
 import { randomUUID } from "crypto";
+import { createClient } from "@supabase/supabase-js";
+
+// Initialize Supabase Client using Hostinger injected env vars
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_API_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 export async function GET(req: NextRequest) {
   const u = await requireAdmin();
@@ -25,6 +28,13 @@ export async function POST(req: NextRequest) {
   const u = await requireAdmin();
   if (u) return u;
 
+  if (!supabase) {
+    return NextResponse.json(
+      { error: "Supabase not configured. Check SUPABASE_URL and SUPABASE_API_KEY environment variables." },
+      { status: 500 }
+    );
+  }
+
   const formData = await req.formData();
   const file = formData.get("file") as File;
   const folder = (formData.get("folder") as string) || "general";
@@ -40,30 +50,50 @@ export async function POST(req: NextRequest) {
   else if (["svg"].includes(ext)) type = "svg";
   else if (["png", "jpg", "jpeg", "gif", "webp"].includes(ext)) type = "image";
 
-  // Generate unique filename
+  // Generate unique filename and Supabase Storage path
   const uniqueName = `${randomUUID()}.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads", folder);
+  const storagePath = `${folder}/${uniqueName}`;
 
-  if (!existsSync(uploadDir)) {
-    await mkdir(uploadDir, { recursive: true });
+  try {
+    // Upload to Supabase Storage
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    
+    const { data, error } = await supabase.storage
+      .from('media')
+      .upload(storagePath, buffer, {
+        contentType: file.type,
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (error) {
+      console.error('[Media Upload] Supabase error:', error);
+      return NextResponse.json({ error: `Storage error: ${error.message}` }, { status: 500 });
+    }
+
+    // Get public URL
+    const { data: publicUrlData } = supabase.storage
+      .from('media')
+      .getPublicUrl(storagePath);
+
+    const url = publicUrlData.publicUrl;
+
+    // Save file metadata to database
+    const mediaFile = await db.mediaFile.create({
+      data: {
+        filename: file.name,
+        url,
+        type,
+        folder,
+        size: file.size,
+        altTag: altTag || null,
+      },
+    });
+
+    return NextResponse.json({ file: mediaFile });
+  } catch (e: any) {
+    console.error('[Media Upload] Server error:', e);
+    return NextResponse.json({ error: e.message || "Upload failed" }, { status: 500 });
   }
-
-  const filePath = path.join(uploadDir, uniqueName);
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(filePath, buffer);
-
-  const url = `/uploads/${folder}/${uniqueName}`;
-
-  const mediaFile = await db.mediaFile.create({
-    data: {
-      filename: file.name,
-      url,
-      type,
-      folder,
-      size: file.size,
-      altTag: altTag || null,
-    },
-  });
-
-  return NextResponse.json({ file: mediaFile });
 }

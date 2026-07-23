@@ -48,12 +48,34 @@ export async function POST(req: NextRequest) {
 
       const ext = cvFile.name.split(".").pop()?.toLowerCase() || "pdf";
       const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}.${ext}`;
-      const filepath = path.join(uploadDir, filename);
-      const buffer = Buffer.from(await cvFile.arrayBuffer());
-      await writeFile(filepath, buffer);
-
-      cvUrl = `/uploads/cv/${filename}`;
-      cvFileName = cvFile.name;
+      
+      // Try Supabase Storage first, fallback to local
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const sUrl = process.env.SUPABASE_URL;
+        const sKey = process.env.SUPABASE_API_KEY;
+        if (sUrl && sKey) {
+          const supabase = createClient(sUrl, sKey);
+          const buffer = Buffer.from(await cvFile.arrayBuffer());
+          const { data, error } = await supabase.storage.from('media').upload(`cv/${filename}`, buffer, { contentType: cvFile.type });
+          if (!error) {
+            const { data: pub } = supabase.storage.from('media').getPublicUrl(`cv/${filename}`);
+            cvUrl = pub.publicUrl;
+            cvFileName = cvFile.name;
+          } else {
+            throw error;
+          }
+        } else {
+          throw new Error('No Supabase keys');
+        }
+      } catch (e) {
+        // Fallback to local filesystem
+        const filepath = path.join(uploadDir, filename);
+        const buffer = Buffer.from(await cvFile.arrayBuffer());
+        await writeFile(filepath, buffer);
+        cvUrl = `/uploads/cv/${filename}`;
+        cvFileName = cvFile.name;
+      }
     }
 
     const lead = await db.lead.create({
