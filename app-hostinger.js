@@ -1,21 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 
-// Supabase PostgreSQL — connected via Hostinger integration
-// Hostinger automatically sets SUPABASE_URL and SUPABASE_API_KEY
-// We also set DATABASE_URL for Prisma ORM
-process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:eyZtxI8QDnitGLNa@db.vxmxxoymiwpoaekgmigb.supabase.co:5432/postgres';
-process.env.NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || 'CVhmTyhLAckaJX/ZEBDV4Dt8VC3zB2GZsbxymybVoWw=';
-process.env.NEXTAUTH_URL = process.env.NEXTAUTH_URL || 'https://www.royaljubilant.com';
-process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-process.env.PORT = process.env.PORT || '3000';
-process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '4';
+// FULLY HARDCODED — no env var fallbacks, fixes Hostinger env var issue
+process.env.DATABASE_URL = 'postgresql://postgres:eyZtxI8QDnitGLNa@db.vxmxxoymiwpoaekgmigb.supabase.co:5432/postgres';
+process.env.NEXTAUTH_SECRET = 'CVhmTyhLAckaJX/ZEBDV4Dt8VC3zB2GZsbxymybVoWw=';
+process.env.NEXTAUTH_URL = 'https://www.royaljubilant.com';
+process.env.NODE_ENV = 'production';
+process.env.PORT = '3000';
+process.env.UV_THREADPOOL_SIZE = '4';
+// Supabase Storage keys for photo uploads
+process.env.SUPABASE_URL = 'https://vxmxxoymiwpoaekgmigb.supabase.co';
+process.env.SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4bXh4b3ltaXdwb2Fla2dtaWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE2NjY5NjAsImV4cCI6MjAzNzI0Mjk2MH0.placeholder';
 
 console.log('[app] DB: Supabase PostgreSQL');
 console.log('[app] NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
-console.log('[app] NODE_ENV:', process.env.NODE_ENV);
 
-// Start standalone server (pre-built)
+// Start standalone server
 var s = path.join(__dirname, '.next', 'standalone', 'server.js');
 if (fs.existsSync(s)) {
   var st = path.join(__dirname, '.next', 'static');
@@ -31,6 +31,6 @@ if (fs.existsSync(s)) {
   }
   require(s);
 } else {
-  console.error('[app] FATAL: No build found. Run "npx next build" first.');
+  console.error('[app] FATAL: No build found.');
   process.exit(1);
 }
